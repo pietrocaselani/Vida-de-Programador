@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Vida de Programador</string>
+    <string name="list">Lista</string>
+    <string name="mosaic">Mosaíco</string>
+    <string name="commics">Tirinhas</string>
+    <string name="twitter">Twitter</string>
+    <string name="informations">Info</string>
 
 </resources>
