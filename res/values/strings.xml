@@ -6,5 +6,6 @@
     <string name="commics">Tirinhas</string>
     <string name="twitter">Twitter</string>
     <string name="informations">Info</string>
+    <string name="content_description_preview">Image view preview</string>
 
 </resources>

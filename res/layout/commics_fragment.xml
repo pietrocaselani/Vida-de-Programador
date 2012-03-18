@@ -9,10 +9,13 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:numColumns="2"
+        android:horizontalSpacing="20dp"
+        android:verticalSpacing="10dp"
 	/>
     <ListView
         android:id="@+id/commicsFragment_listView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:cacheColorHint="@android:color/transparent"
 	/>
 </RelativeLayout>
