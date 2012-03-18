@@ -2,10 +2,10 @@ package com.pc.programmerslife.adapters;
 
 import java.util.List;
 
-import com.androidquery.AQuery;
 import com.pc.framework.rss.Item;
 import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.R;
+import com.pc.programmerslife.views.PreviewView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,13 +16,11 @@ import android.widget.TextView;
 
 public class ItemListAdapter extends ArrayAdapter<Item> {
 	private LayoutInflater inflater;
-	private AQuery aq;
 	private Manager manager;
 
 	public ItemListAdapter(Context context, int textViewResourceId, List<Item> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
-		aq = new AQuery(context);
 		manager = Manager.getInstance();
 	}
 	
@@ -35,9 +33,8 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 		
 		String commicPath = manager.getCommicPath(item.getContent());
 		
-		String smallPath = manager.getSmallCommicPath(commicPath);
-		
-		aq.recycle(convertView).id(R.id.itemListLayout_imageView_preview).image(smallPath);
+		PreviewView previewView = (PreviewView) convertView.findViewById(R.id.itemListLayout_previewView);
+		previewView.drawText(manager.getCommicNumber(commicPath));
 		
 		TextView textViewTitle = (TextView) convertView.findViewById(R.id.itemListLayout_textView_title);
 		textViewTitle.setText(item.getTitle());

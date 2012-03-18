@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <ProgressBar
+        android:id="@+id/commicsFragment_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateOnly="true"
+        android:layout_centerInParent="true"
+	/>
     <GridView
         android:id="@+id/commicsFragment_gridView"
         android:layout_width="fill_parent"
@@ -17,5 +24,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:cacheColorHint="@android:color/transparent"
+        android:divider="@color/gray_divider"
+        android:dividerHeight="1dp"
 	/>
 </RelativeLayout>

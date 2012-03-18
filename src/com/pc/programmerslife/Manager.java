@@ -32,10 +32,19 @@ public class Manager {
 	}
 	
 	public String getMediumCommicPath(String commicPath) {
-int index = commicPath.indexOf(".png");
+		int index = commicPath.indexOf(".png");
 		
 		String result = commicPath.substring(0, index);
 		
 		return result + MEDIUM_COMMIC_LINK;
+	}
+	
+	public String getCommicNumber(String commicPath) {
+		int s = commicPath.lastIndexOf("a") + 1;
+		int e = commicPath.indexOf(".png");
+		
+		String result = commicPath.substring(s, e);
+		
+		return result;
 	}
 }

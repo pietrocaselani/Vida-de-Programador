@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -36,12 +37,9 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		update();
+		
 		items = new ArrayList<Item>();
-		
-		Manager manager = Manager.getInstance(getSherlockActivity());
-		manager.setLink("http://feeds.feedburner.com/VidaDeProgramador?format=xml");
-		manager.update(this, false);
-		
 		isList = true;
 		
 		setHasOptionsMenu(true);
@@ -105,10 +103,23 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		
 		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
 		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
+		
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+		progressBar.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
 	public void onManagerFailUpdate(Exception e, Manager manager) {
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+		progressBar.setVisibility(View.INVISIBLE);
 		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+	}
+	
+	private void update() {
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+		progressBar.setVisibility(View.VISIBLE);
+		Manager manager = Manager.getInstance(getSherlockActivity());
+		manager.setLink("http://feeds.feedburner.com/VidaDeProgramador?format=xml");
+		manager.update(this, false);
 	}
 }

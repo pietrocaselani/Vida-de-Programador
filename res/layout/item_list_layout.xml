@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     >
-    <ImageView
-        android:id="@+id/itemListLayout_imageView_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/content_description_preview"
+    <com.pc.programmerslife.views.PreviewView
+        android:id="@+id/itemListLayout_previewView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
 	/>
     <TextView
         android:id="@+id/itemListLayout_textView_title"
@@ -17,5 +16,7 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:textSize="18sp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
 	/>
 </LinearLayout>
