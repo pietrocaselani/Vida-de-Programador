@@ -17,16 +17,20 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.pc.framework.rss.Item;
-import com.pc.framework.rss.Manager;
-import com.pc.framework.rss.Manager.ManagerListener;
+import com.pc.programmerslife.Commic;
+import com.pc.programmerslife.Manager;
+import com.pc.programmerslife.Manager.ManagerListener;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
 public class CommicsFragment extends SherlockFragment implements OnItemClickListener, ManagerListener {
+	private static final String COMMICS_SIZE_TAG = "CommicsSize";
+	private static final int QUANTITY = 10;
+	private static final int LOAD_MORE_TAG = 1;
+	
 	private boolean isList;
-	private ArrayList<Item> items;
+	private ArrayList<Object> commics;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,24 +41,39 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		update();
-		
-		items = new ArrayList<Item>();
-		isList = true;
-		
-		setHasOptionsMenu(true);
+		commics = new ArrayList<Object>();
 		
 		View view = getView();
-		
 		ListView listView = (ListView) view.findViewById(R.id.commicsFragment_listView);
 		listView.setOnItemClickListener(this);
 		listView.setVisibility(View.VISIBLE);
-		listView.setAdapter(new ItemListAdapter(getSherlockActivity(), R.layout.item_list_layout, items));
+		listView.setAdapter(new ItemListAdapter(getSherlockActivity(), R.layout.item_list_layout, commics));
 		
 		GridView gridView = (GridView) view.findViewById(R.id.commicsFragment_gridView);
 		gridView.setOnItemClickListener(this);
 		gridView.setVisibility(View.INVISIBLE);
-		gridView.setAdapter(new ItemGridAdapter(getSherlockActivity(), R.layout.item_grid_layout, items));
+		gridView.setAdapter(new ItemGridAdapter(getSherlockActivity(), R.layout.item_grid_layout, commics));
+		
+		isList = true;
+		
+		setHasOptionsMenu(true);
+		
+		if (savedInstanceState == null) {
+			update();
+			reloadCommics();
+		} else {
+			ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.commicsFragment_progressBar);
+			progressBar.setVisibility(View.INVISIBLE);
+			int q = savedInstanceState.getInt(COMMICS_SIZE_TAG);
+			reloadCommics(0, q);
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putInt(COMMICS_SIZE_TAG, commics.size());
 	}
 	
 	@Override
@@ -88,38 +107,54 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	}
-
-	@Override
-	public void onManagerFinishUpdate(ArrayList<Item> rssItems, Manager manager) {
-		items.clear();
-		
-		for (Item item : rssItems)
-			if (item.getCategories().contains("Tirinhas"))
-				items.add(item);
-		
-		View v = getView();
-		ListView listView = (ListView) v.findViewById(R.id.commicsFragment_listView);
-		GridView gridView = (GridView) v.findViewById(R.id.commicsFragment_gridView);
-		
-		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
-		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
-		
-		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
-		progressBar.setVisibility(View.INVISIBLE);
-	}
-
-	@Override
-	public void onManagerFailUpdate(Exception e, Manager manager) {
-		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
-		progressBar.setVisibility(View.INVISIBLE);
-		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-	}
 	
 	private void update() {
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
 		progressBar.setVisibility(View.VISIBLE);
+		
 		Manager manager = Manager.getInstance(getSherlockActivity());
 		manager.setLink("http://feeds.feedburner.com/VidaDeProgramador?format=xml");
-		manager.update(this, false);
+		manager.update(this);
+	}
+	
+	private int quantity() {
+		return (commics.size() < QUANTITY) ? QUANTITY : commics.size();
+	}
+	
+	private void reloadCommics() {
+		reloadCommics(0, quantity());
+	}
+	
+	private void reloadCommics(int s, int q) {
+		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getCommics(s, q);
+		if (dbCommics != null) {
+			commics.addAll(dbCommics);
+			
+			int count = Manager.getInstance(getSherlockActivity()).getCommicsCount();
+			if (count > commics.size())
+				commics.add(LOAD_MORE_TAG);
+			
+			View view = getView();
+			
+			ListView listView = (ListView) view.findViewById(R.id.commicsFragment_listView);
+			GridView gridView = (GridView) view.findViewById(R.id.commicsFragment_gridView);
+			
+			((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
+			((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public void onFinishUpdate(Manager manager) {
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+		progressBar.setVisibility(View.INVISIBLE);
+		reloadCommics(0, QUANTITY);
+	}
+
+	@Override
+	public void onFailUpdate(Exception e, Manager manager) {
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+		progressBar.setVisibility(View.INVISIBLE);
+		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 }

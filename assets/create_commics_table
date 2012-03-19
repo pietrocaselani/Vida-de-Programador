@@ -1,0 +1,8 @@
+CREATE TABLE "commics" (
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "content" TEXT,
+    "link" TEXT,
+    "date" INTEGER,
+    "isFavorite" INTEGER
+)

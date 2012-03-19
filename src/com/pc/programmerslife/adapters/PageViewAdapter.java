@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -18,10 +18,13 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 
-public class PageViewAdapter extends FragmentPagerAdapter implements OnTabChangeListener, OnPageChangeListener {
+public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabChangeListener, OnPageChangeListener {
 	private Context context;
 	private TabHost tabHost;
 	private ViewPager viewPager;
+	private CommicsFragment commicsFragment;
+	private TwitterFragment twitterFragment;
+	private InformationsFragment informationsFragment;
 	
 	public PageViewAdapter(FragmentActivity activity, TabHost tabHost, ViewPager viewPager) {
 		super(activity.getSupportFragmentManager());
@@ -34,16 +37,20 @@ public class PageViewAdapter extends FragmentPagerAdapter implements OnTabChange
 		
 		viewPager.setAdapter(this);
 		viewPager.setOnPageChangeListener(this);
+		
+		commicsFragment = new CommicsFragment();
+		twitterFragment = new TwitterFragment();
+		informationsFragment = new InformationsFragment();
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		if (position == 0)
-			return new CommicsFragment();	
+			return commicsFragment;
 		else if (position == 1)
-			return new TwitterFragment();
+			return twitterFragment;
 		else if (position == 2)
-			return new InformationsFragment();
+			return informationsFragment;
 		return null;
 	}
 
