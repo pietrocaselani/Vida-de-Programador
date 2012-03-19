@@ -22,9 +22,6 @@ public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabC
 	private Context context;
 	private TabHost tabHost;
 	private ViewPager viewPager;
-	private CommicsFragment commicsFragment;
-	private TwitterFragment twitterFragment;
-	private InformationsFragment informationsFragment;
 	
 	public PageViewAdapter(FragmentActivity activity, TabHost tabHost, ViewPager viewPager) {
 		super(activity.getSupportFragmentManager());
@@ -37,20 +34,16 @@ public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabC
 		
 		viewPager.setAdapter(this);
 		viewPager.setOnPageChangeListener(this);
-		
-		commicsFragment = new CommicsFragment();
-		twitterFragment = new TwitterFragment();
-		informationsFragment = new InformationsFragment();
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		if (position == 0)
-			return commicsFragment;
+			return new CommicsFragment();
 		else if (position == 1)
-			return twitterFragment;
+			return new TwitterFragment();
 		else if (position == 2)
-			return informationsFragment;
+			return new InformationsFragment();
 		return null;
 	}
 
