@@ -89,7 +89,7 @@ public class Manager implements ManagerListener {
 	public ArrayList<Commic> getCommics(int starting, int quantity) {
 		SQLiteDatabase db = databaseHelper.getReadableDatabase();
 		
-		String selectSQL = "SELECT title, description, content, link, date, isFavorite FROM commics DESC LIMIT ?, ?";
+		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite FROM commics DESC LIMIT ?, ?";
 		
 		try {
 			Cursor c = db.rawQuery(selectSQL, new String[] {
@@ -143,7 +143,7 @@ public class Manager implements ManagerListener {
 		Exception e = null;
 		long time;
 		
-		String insertSQL = "INSERT OR REPLACE INTO commics (title, description, content, link, date, isFavorite) VALUES (?, ?, ?, ?, ?, 0)";
+		String insertSQL = "INSERT OR REPLACE INTO commics (guid, title, description, content, link, pubDate) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		db.execSQL("BEGIN");
 		
@@ -151,6 +151,7 @@ public class Manager implements ManagerListener {
 			time = item.getDate() == null ? 0 : item.getDate().getTime();
 			try {
 				db.execSQL(insertSQL, new Object[] {
+					item.getGuid(),
 					item.getTitle(),
 					item.getDescription(),
 					item.getContent(),

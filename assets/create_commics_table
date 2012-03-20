@@ -1,8 +1,8 @@
-CREATE TABLE "commics" (
-    "title" TEXT NOT NULL,
-    "description" TEXT,
-    "content" TEXT,
-    "link" TEXT,
-    "date" INTEGER,
-    "isFavorite" INTEGER
-)
+CREATE TABLE "commics"
+("guid" VARCHAR PRIMARY KEY  NOT NULL,
+"title" VARCHAR,
+"description" VARCHAR,
+"link" VARCHAR NOT NULL,
+"content" VARCHAR NOT NULL,
+"pubDate" DATETIME NOT NULL,
+"isFavorite" BOOL NOT NULL DEFAULT (0) )

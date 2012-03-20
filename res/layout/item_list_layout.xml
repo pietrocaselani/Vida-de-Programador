@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     >
-    <com.pc.programmerslife.views.PreviewView
-        android:id="@+id/itemListLayout_previewView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <TextView
+        android:id="@+id/itemListLayout_textView_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
 	/>
     <TextView
         android:id="@+id/itemListLayout_textView_title"

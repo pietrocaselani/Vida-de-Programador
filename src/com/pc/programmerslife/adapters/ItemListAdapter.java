@@ -1,11 +1,9 @@
 package com.pc.programmerslife.adapters;
 
 import java.util.List;
-
 import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.R;
-import com.pc.programmerslife.views.PreviewView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -46,9 +44,10 @@ public class ItemListAdapter extends ArrayAdapter<Object> {
 			Commic commic = (Commic) getItem(position);
 			
 			String commicPath = manager.getCommicPath(commic.getContent());
+			String commicNumber = manager.getCommicNumber(commicPath);
 			
-			PreviewView previewView = (PreviewView) convertView.findViewById(R.id.itemListLayout_previewView);
-			previewView.drawText(manager.getCommicNumber(commicPath));
+			TextView textViewNumber = (TextView) convertView.findViewById(R.id.itemListLayout_textView_number);
+			textViewNumber.setText(commicNumber);
 			
 			TextView textViewTitle = (TextView) convertView.findViewById(R.id.itemListLayout_textView_title);
 			textViewTitle.setText(commic.getTitle());

@@ -128,6 +128,8 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	private void reloadCommics(int s, int q) {
 		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getCommics(s, q);
 		if (dbCommics != null) {
+			commics.clear();
+			
 			commics.addAll(dbCommics);
 			
 			int count = Manager.getInstance(getSherlockActivity()).getCommicsCount();
