@@ -43,8 +43,7 @@ public class ItemListAdapter extends ArrayAdapter<Object> {
 			
 			Commic commic = (Commic) getItem(position);
 			
-			String commicPath = manager.getCommicPath(commic.getContent());
-			String commicNumber = manager.getCommicNumber(commicPath);
+			String commicNumber = manager.getCommicNumber(commic.getPath());
 			
 			TextView textViewNumber = (TextView) convertView.findViewById(R.id.itemListLayout_textView_number);
 			textViewNumber.setText(commicNumber);

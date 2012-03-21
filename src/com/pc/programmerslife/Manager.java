@@ -50,17 +50,6 @@ public class Manager implements ManagerListener {
 		return rssManager.cancel();
 	}
 	
-	public String getCommicPath(String content) {
-		int start = content.indexOf("http://vidadeprogramador.com.br/wp-content/uploads/");
-		
-		String path = content.substring(start);
-		int end = path.indexOf("\"");
-		
-		path = content.substring(start, end + start);
-		
-		return path;
-	}
-	
 	public String getSmallCommicPath(String commicPath) {
 		int index = commicPath.indexOf(".png");
 		

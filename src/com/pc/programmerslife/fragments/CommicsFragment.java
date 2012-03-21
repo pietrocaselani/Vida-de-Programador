@@ -2,6 +2,7 @@ package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.Manager.ManagerListener;
 import com.pc.programmerslife.R;
+import com.pc.programmerslife.activities.CommicActivity;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
@@ -106,6 +108,17 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Object obj = commics.get(position);
+		
+		if (obj instanceof Commic) {
+			Commic commic = (Commic) obj;
+			
+			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
+			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
+			startActivity(commicActivityIntent);
+		} else {
+			// Load more
+		}
 	}
 	
 	private void update() {

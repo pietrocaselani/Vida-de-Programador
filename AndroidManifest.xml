@@ -22,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.CommicActivity"
+            android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"
+		/>
     </application>
 
 </manifest>
