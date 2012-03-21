@@ -116,9 +116,8 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
 			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
 			startActivity(commicActivityIntent);
-		} else {
-			// Load more
-		}
+		} else
+			loadMore();
 	}
 	
 	private void update() {
@@ -145,18 +144,33 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			
 			commics.addAll(dbCommics);
 			
-			int count = Manager.getInstance(getSherlockActivity()).getCommicsCount();
-			if (count > commics.size())
-				commics.add(LOAD_MORE_TAG);
-			
-			View view = getView();
-			
-			ListView listView = (ListView) view.findViewById(R.id.commicsFragment_listView);
-			GridView gridView = (GridView) view.findViewById(R.id.commicsFragment_gridView);
-			
-			((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
-			((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
+			reloadViews();
 		}
+	}
+	
+	private void loadMore() {
+		int s = commics.size() - 1;
+		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getCommics(s, QUANTITY);
+		if (dbCommics != null) {
+			commics.remove(s);
+			commics.addAll(dbCommics);
+			
+			reloadViews();
+		}
+	}
+	
+	private void reloadViews() {
+		int count = Manager.getInstance(getSherlockActivity()).getCommicsCount();
+		if (count > commics.size())
+			commics.add(LOAD_MORE_TAG);
+		
+		View view = getView();
+		
+		ListView listView = (ListView) view.findViewById(R.id.commicsFragment_listView);
+		GridView gridView = (GridView) view.findViewById(R.id.commicsFragment_gridView);
+		
+		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
+		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
 	}
 
 	@Override
