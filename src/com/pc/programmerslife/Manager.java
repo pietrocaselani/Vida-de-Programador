@@ -148,6 +148,26 @@ public class Manager implements ManagerListener {
 		if (e != null)
 			Log.e("VDP-MANAGER", e.getMessage());
 	}
+	
+	public boolean updateCommic(Commic commic) {
+		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE guid = ?";
+		
+		SQLiteDatabase db = databaseHelper.getWritableDatabase();
+		Exception exception = null;
+		
+		int favorite = (commic.isFavorite() == true) ? 1 : 0;
+		
+		try {
+			db.execSQL(updateSQL, new Object[] {
+					favorite,
+					commic.getGuid()
+			});
+		} catch (SQLException e) {
+			exception = e;
+		}
+		
+		return exception == null;
+	}
 
 	@Override
 	public void onManagerFinishUpdate(ArrayList<Item> items, com.pc.framework.rss.Manager manager) {

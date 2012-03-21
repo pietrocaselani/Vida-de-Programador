@@ -3,12 +3,14 @@ package com.pc.programmerslife.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.pc.programmerslife.Commic;
+import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.R;
 
 public class CommicActivity extends SherlockActivity {
@@ -52,7 +54,18 @@ public class CommicActivity extends SherlockActivity {
 			startActivity(Intent.createChooser(shareIntent, getString(R.string.share_using)));
 			return true;
 		} else if (item.getItemId() == R.id.commicActivityMenu_favorite) {
+			commic.setFavorite(!commic.isFavorite());
 			
+			String text = null;
+			
+			if (Manager.getInstance(getApplicationContext()).updateCommic(commic) == true)
+				text = getString((commic.isFavorite() == true) ? R.string.save_favorite : R.string.unsave_favorite);
+			else
+				text = getString(R.string.error_favorite);
+			
+			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+			
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
