@@ -8,5 +8,6 @@
     <string name="informations">Info</string>
     <string name="content_description_preview">Image view preview</string>
     <string name="load_more_commics">Carregar mais tirinhas</string>
+    <string name="share_using">Compartilhar usando:</string>
 
 </resources>
