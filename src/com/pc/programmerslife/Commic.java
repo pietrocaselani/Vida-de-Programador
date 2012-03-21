@@ -1,25 +1,31 @@
 package com.pc.programmerslife;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.pc.framework.rss.Item;
 
-public class Commic extends Item implements Parcelable {
+public class Commic extends Item {
 	public static final String EXTRA_COMMIC = "Extra_Commic";
+	
+	private static final String FAVORITE_KEY = "Favorite";
+	private static final String PATH_KEY = "PATH";
 	
 	private boolean isFavorite;
 	private String path;
 	
 	public Commic(Parcel source) {
 		super(source);
-		
-		isFavorite = source.readInt() == 1;
-		path = source.readString();
+		if (source != null) {
+			Bundle data = source.readBundle();
+			
+			this.isFavorite = data.getBoolean(FAVORITE_KEY);
+			this.path = data.getString(PATH_KEY);
+		}
 	}
 	
 	public Commic() {
-		super();
 	}
 	
 	public void setFavorite(boolean isFavorite) {
@@ -47,20 +53,17 @@ public class Commic extends Item implements Parcelable {
 	}
 	
 	@Override
-	public int describeContents() {
-//		return super.describeContents();
-		return 0;
-	}
-	
-	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(isFavorite == true ? 1 : 0);
-		dest.writeString(path);
-		
 		super.writeToParcel(dest, flags);
+		
+		Bundle data = new Bundle();
+		data.putString(PATH_KEY, path);
+		data.putBoolean(FAVORITE_KEY, isFavorite);
+		
+		dest.writeBundle(data);
 	}
 	
-	Parcelable.Creator<Commic> CREATOR = new Creator<Commic>() {
+	public static final Parcelable.Creator<Commic> CREATOR = new Creator<Commic>() {
 		
 		@Override
 		public Commic[] newArray(int size) {
