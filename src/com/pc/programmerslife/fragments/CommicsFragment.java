@@ -1,6 +1,8 @@
 package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -160,6 +162,8 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 	
 	private void reloadViews() {
+		orderCommics();
+		
 		int count = Manager.getInstance(getSherlockActivity()).getCommicsCount();
 		if (count > commics.size())
 			commics.add(LOAD_MORE_TAG);
@@ -171,6 +175,18 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		
 		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
 		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
+	}
+	
+	private void orderCommics() {
+		Collections.sort(commics, new Comparator<Object>() {
+
+			@Override
+			public int compare(Object o1, Object o2) {
+				if (o1 instanceof Commic && o2 instanceof Commic)
+					return ((Commic) o2).getNumber().compareTo(((Commic) o1).getNumber());
+				return 0;
+			}
+		});
 	}
 
 	@Override

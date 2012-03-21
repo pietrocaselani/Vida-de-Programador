@@ -2,7 +2,6 @@ package com.pc.programmerslife.adapters;
 
 import java.util.List;
 import com.pc.programmerslife.Commic;
-import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.R;
 
 import android.content.Context;
@@ -17,12 +16,10 @@ public class ItemListAdapter extends ArrayAdapter<Object> {
 	private static final int LOAD_MORE_VIEW_TYPE = 1;
 	
 	private LayoutInflater inflater;
-	private Manager manager;
 
 	public ItemListAdapter(Context context, int textViewResourceId, List<Object> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
-		manager = Manager.getInstance(context);
 	}
 	
 	@Override
@@ -43,10 +40,8 @@ public class ItemListAdapter extends ArrayAdapter<Object> {
 			
 			Commic commic = (Commic) getItem(position);
 			
-			String commicNumber = manager.getCommicNumber(commic.getPath());
-			
 			TextView textViewNumber = (TextView) convertView.findViewById(R.id.itemListLayout_textView_number);
-			textViewNumber.setText(commicNumber);
+			textViewNumber.setText(String.valueOf(commic.getNumber()));
 			
 			TextView textViewTitle = (TextView) convertView.findViewById(R.id.itemListLayout_textView_title);
 			textViewTitle.setText(commic.getTitle());

@@ -66,15 +66,6 @@ public class Manager implements ManagerListener {
 		return result + MEDIUM_COMMIC_LINK;
 	}
 	
-	public String getCommicNumber(String commicPath) {
-		int s = commicPath.lastIndexOf("a") + 1;
-		int e = commicPath.indexOf(".png");
-		
-		String result = commicPath.substring(s, e);
-		
-		return result;
-	}
-	
 	public ArrayList<Commic> getCommics(int starting, int quantity) {
 		SQLiteDatabase db = databaseHelper.getReadableDatabase();
 		

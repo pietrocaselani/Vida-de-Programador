@@ -10,10 +10,12 @@ public class Commic extends Item {
 	public static final String EXTRA_COMMIC = "Extra_Commic";
 	
 	private static final String FAVORITE_KEY = "Favorite";
-	private static final String PATH_KEY = "PATH";
+	private static final String PATH_KEY = "Path";
+	private static final String NUMBER_KEY = "Number";
 	
 	private boolean isFavorite;
 	private String path;
+	private Integer number;
 	
 	public Commic(Parcel source) {
 		super(source);
@@ -22,6 +24,7 @@ public class Commic extends Item {
 			
 			this.isFavorite = data.getBoolean(FAVORITE_KEY);
 			this.path = data.getString(PATH_KEY);
+			this.number = data.getInt(NUMBER_KEY);
 		}
 	}
 	
@@ -45,11 +48,24 @@ public class Commic extends Item {
 		String commicPath = content.substring(start);
 		int end = commicPath.indexOf("\"");
 		
-		path = content.substring(start, end + start);
+		this.path = content.substring(start, end + start);
+		
+		int s = path.lastIndexOf("a") + 1;
+		int e = path.indexOf(".png");
+		String numberString = path.substring(s, e);
+		
+		try {
+			this.number = Integer.parseInt(numberString);
+		} catch (NumberFormatException numberException) {
+		}
 	}
 	
 	public String getPath() {
 		return path;
+	}
+	
+	public Integer getNumber() {
+		return number;
 	}
 	
 	@Override
@@ -59,6 +75,7 @@ public class Commic extends Item {
 		Bundle data = new Bundle();
 		data.putString(PATH_KEY, path);
 		data.putBoolean(FAVORITE_KEY, isFavorite);
+		data.putInt(NUMBER_KEY, number);
 		
 		dest.writeBundle(data);
 	}
