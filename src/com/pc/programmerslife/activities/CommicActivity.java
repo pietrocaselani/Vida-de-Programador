@@ -54,7 +54,8 @@ public class CommicActivity extends SherlockActivity {
 			startActivity(Intent.createChooser(shareIntent, getString(R.string.share_using)));
 			return true;
 		} else if (item.getItemId() == R.id.commicActivityMenu_favorite) {
-			commic.setFavorite(!commic.isFavorite());
+			boolean isFavorite = commic.isFavorite();
+			commic.setFavorite(!isFavorite);
 			
 			String text = null;
 			

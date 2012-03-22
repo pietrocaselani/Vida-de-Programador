@@ -34,6 +34,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	private static final int LOAD_MORE_TAG = 1;
 	
 	private boolean isList;
+	private boolean shouldReload;
 	private ArrayList<Object> commics;
 	
 	@Override
@@ -71,6 +72,14 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			int q = savedInstanceState.getInt(COMMICS_SIZE_TAG);
 			reloadCommics(0, q);
 		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		if (shouldReload == true)
+			reloadCommics();
 	}
 	
 	@Override
@@ -118,6 +127,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
 			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
 			startActivity(commicActivityIntent);
+			shouldReload = true;
 		} else
 			loadMore();
 	}

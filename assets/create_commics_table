@@ -5,4 +5,4 @@ CREATE TABLE "commics"
 "link" VARCHAR NOT NULL,
 "content" VARCHAR NOT NULL,
 "pubDate" DATETIME NOT NULL,
-"isFavorite" BOOL NOT NULL DEFAULT (0) )
+"isFavorite" BOOL )

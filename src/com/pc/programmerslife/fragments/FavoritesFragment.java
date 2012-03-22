@@ -10,7 +10,6 @@ import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 public class FavoritesFragment extends SherlockFragment implements OnItemClickListener {
-	private static final String COMMICS_SIZE_TAG = "CommicsSize";
-	
 	private boolean isList;
 	private ArrayList<Object> commics;
 	
@@ -57,8 +54,8 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 		super.onResume();
 		
 		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getFavorites();
+		commics.clear();
 		if (dbCommics != null) {
-			commics.clear();
 			commics.addAll(dbCommics);
 			
 			View view = getView();
@@ -69,16 +66,8 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 			((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
 		}
 	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt(COMMICS_SIZE_TAG, commics.size());
-	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		// TODO Auto-generated method stub
-		
 	}
 }
