@@ -1,6 +1,7 @@
 package com.pc.programmerslife.adapters;
 
 import com.pc.programmerslife.fragments.CommicsFragment;
+import com.pc.programmerslife.fragments.FavoritesFragment;
 import com.pc.programmerslife.fragments.InformationsFragment;
 import com.pc.programmerslife.fragments.TwitterFragment;
 
@@ -41,15 +42,17 @@ public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabC
 		if (position == 0)
 			return new CommicsFragment();
 		else if (position == 1)
-			return new TwitterFragment();
+			return new FavoritesFragment();
 		else if (position == 2)
+			return new TwitterFragment();
+		else if (position == 3)
 			return new InformationsFragment();
 		return null;
 	}
 
 	@Override
 	public int getCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override

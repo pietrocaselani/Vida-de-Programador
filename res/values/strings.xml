@@ -12,5 +12,6 @@
     <string name="save_favorite">Salvo com sucesso nos favoritos</string>
     <string name="error_favorite">Não foi possível favoritar a tirinha</string>
     <string name="unsave_favorite">Removido com sucesso dos favoritos</string>
+    <string name="favorites">Favoritos</string>
 
 </resources>

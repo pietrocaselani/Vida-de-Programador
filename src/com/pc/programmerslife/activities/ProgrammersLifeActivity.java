@@ -8,11 +8,13 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.adapters.PageViewAdapter;
 import com.pc.programmerslife.fragments.CommicsFragment;
+import com.pc.programmerslife.fragments.FavoritesFragment;
 import com.pc.programmerslife.fragments.InformationsFragment;
 import com.pc.programmerslife.fragments.TwitterFragment;
 
 public class ProgrammersLifeActivity extends SherlockFragmentActivity {
 	private static final String COMMICS_SPEC_TAG = "Commics";
+	private static final String FAVORITES_SPEC_TAG = "Favorites";
 	private static final String TWITTER_SPEC_TAG = "Twitter";
 	private static final String INFO_SPEC_TAG = "Info";
 	private static final String CURRENT_TAG = "TabTag";
@@ -34,6 +36,7 @@ public class ProgrammersLifeActivity extends SherlockFragmentActivity {
 		pageViewAdapter = new PageViewAdapter(this, tabHost, viewPager);
 		
 		pageViewAdapter.addTab(tabHost.newTabSpec(COMMICS_SPEC_TAG).setIndicator(getString(R.string.commics)), CommicsFragment.class, null);
+		pageViewAdapter.addTab(tabHost.newTabSpec(FAVORITES_SPEC_TAG).setIndicator(getString(R.string.favorites)), FavoritesFragment.class, null);
 		pageViewAdapter.addTab(tabHost.newTabSpec(TWITTER_SPEC_TAG).setIndicator(getString(R.string.twitter)), TwitterFragment.class, null);
 		pageViewAdapter.addTab(tabHost.newTabSpec(INFO_SPEC_TAG).setIndicator(getString(R.string.informations)), InformationsFragment.class, null);
 		

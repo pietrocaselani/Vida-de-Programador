@@ -76,28 +76,61 @@ public class Manager implements ManagerListener {
 					String.valueOf(starting),
 					String.valueOf(quantity)
 				});
+			if (c != null && c.moveToFirst() == true) {
+				ArrayList<Commic> commics = new ArrayList<Commic>(c.getCount());
+				Commic commic;
+				do {
+					commic = new Commic();
+					
+					commic.setTitle(c.getString(0));
+					commic.setDescription(c.getString(1));
+					commic.setContent(c.getString(2));
+					commic.setLink(c.getString(3));
+					commic.setDate(new Date(c.getLong(4)));
+					commic.setFavorite(c.getInt(5) == 1);
+					
+					commics.add(commic);
+					
+				} while (c.moveToNext() == true);
 				
-				if (c != null && c.moveToFirst() == true) {
-					ArrayList<Commic> commics = new ArrayList<Commic>(c.getCount());
-					Commic commic;
-					do {
-						commic = new Commic();
-						
-						commic.setTitle(c.getString(0));
-						commic.setDescription(c.getString(1));
-						commic.setContent(c.getString(2));
-						commic.setLink(c.getString(3));
-						commic.setDate(new Date(c.getLong(4)));
-						commic.setFavorite(c.getInt(5) == 1);
-						
-						commics.add(commic);
-						
-					} while (c.moveToNext() == true);
+				c.close();
+				
+				return commics;
+			}
+		} catch (SQLException e) {
+			Log.e("VDP-MANAGER", e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<Commic> getFavorites() {
+		SQLiteDatabase db = databaseHelper.getReadableDatabase();
+		
+		String selectSQL = "SELECT title, description, content, link, pubDate FROM commics WHERE isFavorite == 1";
+		
+		try {
+			Cursor c = db.rawQuery(selectSQL, null);
+			if (c != null && c.moveToFirst() == true) {
+				ArrayList<Commic> commics = new ArrayList<Commic>(c.getCount());
+				Commic commic;
+				do {
+					commic = new Commic();
 					
-					c.close();
+					commic.setTitle(c.getString(0));
+					commic.setDescription(c.getString(1));
+					commic.setContent(c.getString(2));
+					commic.setLink(c.getString(3));
+					commic.setDate(new Date(c.getLong(4)));
+					commic.setFavorite(true);
 					
-					return commics;
-				}
+					commics.add(commic);
+				} while (c.moveToNext() == true);
+				
+				c.close();
+				
+				return commics;
+			}
 		} catch (SQLException e) {
 			Log.e("VDP-MANAGER", e.getMessage());
 		}
@@ -150,7 +183,7 @@ public class Manager implements ManagerListener {
 	}
 	
 	public boolean updateCommic(Commic commic) {
-		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE guid = ?";
+		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE title = ?";
 		
 		SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		Exception exception = null;
@@ -160,7 +193,7 @@ public class Manager implements ManagerListener {
 		try {
 			db.execSQL(updateSQL, new Object[] {
 					favorite,
-					commic.getGuid()
+					commic.getTitle()
 			});
 		} catch (SQLException e) {
 			exception = e;
