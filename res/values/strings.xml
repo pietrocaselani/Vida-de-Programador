@@ -13,5 +13,6 @@
     <string name="error_favorite">Não foi possível favoritar a tirinha</string>
     <string name="unsave_favorite">Removido com sucesso dos favoritos</string>
     <string name="favorites">Favoritos</string>
+    <string name="content_description_commic">Image View Commic</string>
 
 </resources>
