@@ -91,7 +91,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.commics_fragment_ment, menu);
+		inflater.inflate(R.menu.commics_fragment_menu, menu);
 	}
 	
 	@Override
