@@ -3,16 +3,23 @@ package com.pc.programmerslife;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.pc.framework.json.JSONRequest;
+import com.pc.framework.json.JSONRequest.JSONRequestListener;
 import com.pc.framework.rss.Item;
 import com.pc.framework.rss.Manager.ManagerListener;
 
-public class Manager implements ManagerListener {
+public class Manager implements ManagerListener, JSONRequestListener {
+	private static final String TWITTER_LINK = "https://twitter.com/status/user_timeline/programadorREAL.json";
 	private static final String SMALL_COMMIC_LINK = "-150x150.png";
 	private static final String MEDIUM_COMMIC_LINK = "-300x300.png";
 	
@@ -20,6 +27,7 @@ public class Manager implements ManagerListener {
 	
 	private com.pc.framework.rss.Manager rssManager;
 	private ManagerListener listener;
+	private TwitterListener twitterListener;
 	private DatabaseHelper databaseHelper;
 	
 	public static Manager getInstance(Context context) {
@@ -150,6 +158,33 @@ public class Manager implements ManagerListener {
 		return count;
 	}
 	
+	public boolean updateCommic(Commic commic) {
+		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE title = ?";
+		
+		SQLiteDatabase db = databaseHelper.getWritableDatabase();
+		Exception exception = null;
+		
+		int favorite = (commic.isFavorite() == true) ? 1 : 0;
+		
+		try {
+			db.execSQL(updateSQL, new Object[] {
+					favorite,
+					commic.getTitle()
+			});
+		} catch (SQLException e) {
+			exception = e;
+		}
+		
+		return exception == null;
+	}
+	
+	public void getTweets(TwitterListener listener) {
+		this.twitterListener = listener;
+		
+		JSONRequest jsonRequest = new JSONRequest(this);
+		jsonRequest.getAsyncJSON(TWITTER_LINK);
+	}
+	
 	private void save(ArrayList<Item> items) {
 		SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		
@@ -182,24 +217,28 @@ public class Manager implements ManagerListener {
 			Log.e("VDP-MANAGER", e.getMessage());
 	}
 	
-	public boolean updateCommic(Commic commic) {
-		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE title = ?";
+	private void parseTweets(JSONArray json) throws JSONException {
+		int i, size = json.length();
+		ArrayList<Tweet> tweets = new ArrayList<Tweet>(size);
+		Tweet tweet;
+		JSONObject userObject, tweetObject;
 		
-		SQLiteDatabase db = databaseHelper.getWritableDatabase();
-		Exception exception = null;
-		
-		int favorite = (commic.isFavorite() == true) ? 1 : 0;
-		
-		try {
-			db.execSQL(updateSQL, new Object[] {
-					favorite,
-					commic.getTitle()
-			});
-		} catch (SQLException e) {
-			exception = e;
+		for (i = 0; i < size; i++) {
+			tweetObject = json.getJSONObject(i);
+			
+			userObject = tweetObject.getJSONObject("user");
+			
+			tweet = new Tweet();
+			tweet.setUserName(userObject.getString("name"));
+			tweet.setUserPhotoLink(userObject.getString("profile_image_url"));
+			tweet.setSource(tweetObject.getString("source"));
+			tweet.setText(tweetObject.getString("text"));
+			
+			tweets.add(tweet);
 		}
 		
-		return exception == null;
+		if (twitterListener != null)
+			twitterListener.onFinishGetTweets(tweets);
 	}
 
 	@Override
@@ -221,8 +260,33 @@ public class Manager implements ManagerListener {
 			listener.onFailUpdate(e, this);
 	}
 	
+	@Override
+	public void onJSONRequestCompleted(Object json, JSONRequest jsonRequest) {
+		if (json != null)
+			try {
+				parseTweets((JSONArray) json);
+			} catch (JSONException e) {
+				if (twitterListener != null)
+					twitterListener.onFailGetTweets(e);
+			}
+		else
+			if (twitterListener != null)
+				twitterListener.onFailGetTweets(null);
+	}
+
+	@Override
+	public void onJSONRequestFail(Exception e, JSONRequest jsonRequest) {
+		if (twitterListener != null)
+			twitterListener.onFailGetTweets(e);
+	}
+	
 	public interface ManagerListener {
 		public void onFinishUpdate(Manager manager);
 		public void onFailUpdate(Exception e, Manager manager);
+	}
+	
+	public interface TwitterListener {
+		public void onFinishGetTweets(ArrayList<Tweet> tweets);
+		public void onFailGetTweets(Exception e);
 	}
 }
