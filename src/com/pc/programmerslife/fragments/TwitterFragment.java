@@ -29,10 +29,9 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		getListView().setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 		getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
 		
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null)
 			tweets = new ArrayList<Tweet>();
-			Manager.getInstance(getSherlockActivity()).getTweets(this);
-		} else
+		else
 			tweets = savedInstanceState.getParcelableArrayList(Tweet.EXTRA_TWEETS);
 		
 		if (tweets != null) {
@@ -43,10 +42,16 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		Manager.getInstance(getSherlockActivity()).getTweets(this);
+	}
+	
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (tweets != null)
-			outState.putParcelableArrayList(Tweet.EXTRA_TWEETS, tweets);
+		outState.putParcelableArrayList(Tweet.EXTRA_TWEETS, tweets);
 	}
 
 	@Override

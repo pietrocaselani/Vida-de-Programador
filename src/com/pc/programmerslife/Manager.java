@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask.Status;
 import android.util.Log;
 
 import com.pc.framework.json.JSONRequest;
@@ -29,6 +30,7 @@ public class Manager implements ManagerListener, JSONRequestListener {
 	private ManagerListener listener;
 	private TwitterListener twitterListener;
 	private DatabaseHelper databaseHelper;
+	private JSONRequest jsonRequest;
 	
 	public static Manager getInstance(Context context) {
 		if (singleton == null)
@@ -183,10 +185,12 @@ public class Manager implements ManagerListener, JSONRequestListener {
 	}
 	
 	public void getTweets(TwitterListener listener) {
-		this.twitterListener = listener;
-		
-		JSONRequest jsonRequest = new JSONRequest(this);
-		jsonRequest.getAsyncJSON(TWITTER_LINK);
+		if (jsonRequest == null || jsonRequest.getStatus() == Status.FINISHED) {
+			this.twitterListener = listener;
+			
+			jsonRequest = new JSONRequest(this);
+			jsonRequest.getAsyncJSON(TWITTER_LINK);
+		}
 	}
 	
 	private void save(ArrayList<Item> items) {

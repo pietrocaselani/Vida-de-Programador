@@ -203,15 +203,19 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 
 	@Override
 	public void onFinishUpdate(Manager manager) {
-		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
-		progressBar.setVisibility(View.INVISIBLE);
-		reloadCommics(0, QUANTITY);
+		if (isResumed() == true) {
+			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+			progressBar.setVisibility(View.INVISIBLE);
+			reloadCommics(0, QUANTITY);
+		}
 	}
 
 	@Override
 	public void onFailUpdate(Exception e, Manager manager) {
-		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
-		progressBar.setVisibility(View.INVISIBLE);
-		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+		if (isResumed() == true) {
+			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
+			progressBar.setVisibility(View.INVISIBLE);
+			Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
 	}
 }
