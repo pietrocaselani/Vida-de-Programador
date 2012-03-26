@@ -5,6 +5,7 @@ import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.R;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class ItemListAdapter extends ArrayAdapter<Object> {
 			
 			TextView textViewTitle = (TextView) convertView.findViewById(R.id.itemListLayout_textView_title);
 			textViewTitle.setText(commic.getTitle());
+			textViewTitle.setTypeface((commic.isUnread() == true) ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
 		} else {
 			if (convertView == null)
 				convertView = inflater.inflate(R.layout.load_more_commics_layout, parent, false);

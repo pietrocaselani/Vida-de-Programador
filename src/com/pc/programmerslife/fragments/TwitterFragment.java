@@ -2,13 +2,18 @@ package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.Manager.TwitterListener;
+import com.pc.programmerslife.R;
 import com.pc.programmerslife.Tweet;
+import com.pc.programmerslife.adapters.TwitterListAdapter;
 
 public class TwitterFragment extends SherlockListFragment implements TwitterListener {
 	private ArrayList<Tweet> tweets;
@@ -17,21 +22,43 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		setListShown(false);
+		getListView().setCacheColorHint(Color.TRANSPARENT);
+		getListView().setDividerHeight(5);
+		getListView().setDivider(new ColorDrawable(Color.BLACK));
+//		getListView().setBackgroundColor(Color.TRANSPARENT);
+		getListView().setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+		getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
 		
-		tweets = new ArrayList<Tweet>();
+		if (savedInstanceState == null) {
+			tweets = new ArrayList<Tweet>();
+			Manager.getInstance(getSherlockActivity()).getTweets(this);
+		} else
+			tweets = savedInstanceState.getParcelableArrayList(Tweet.EXTRA_TWEETS);
 		
-		Manager.getInstance(getSherlockActivity()).getTweets(this);
+		if (tweets != null) {
+			setListAdapter(new TwitterListAdapter(getSherlockActivity(), R.layout.tweet_item_layout, tweets));
+			
+			setListShown(tweets.size() > 0);
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (tweets != null)
+			outState.putParcelableArrayList(Tweet.EXTRA_TWEETS, tweets);
 	}
 
 	@Override
 	public void onFinishGetTweets(ArrayList<Tweet> tweets) {
-		Toast.makeText(getSherlockActivity(), "Baixou " + String.valueOf(tweets.size()) + " tweets", Toast.LENGTH_SHORT).show();
-		
 		this.tweets.clear();
 		this.tweets.addAll(tweets);
 		
-		setListShown(true);
+		((TwitterListAdapter) getListAdapter()).notifyDataSetChanged();
+		
+		if (isResumed() == true) {
+			setListShown(true);
+		}
 	}
 
 	@Override

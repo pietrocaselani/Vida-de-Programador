@@ -10,10 +10,11 @@ public class Commic extends Item {
 	public static final String EXTRA_COMMIC = "Extra_Commic";
 	
 	private static final String FAVORITE_KEY = "Favorite";
+	private static final String UNREAD_KEY = "Unread";
 	private static final String PATH_KEY = "Path";
 	private static final String NUMBER_KEY = "Number";
 	
-	private boolean isFavorite;
+	private boolean isFavorite, isUnread;
 	private String path;
 	private Integer number;
 	
@@ -25,6 +26,7 @@ public class Commic extends Item {
 			this.isFavorite = data.getBoolean(FAVORITE_KEY);
 			this.path = data.getString(PATH_KEY);
 			this.number = data.getInt(NUMBER_KEY);
+			this.isUnread = data.getBoolean(NUMBER_KEY);
 		}
 	}
 	
@@ -37,6 +39,14 @@ public class Commic extends Item {
 	
 	public boolean isFavorite() {
 		return isFavorite;
+	}
+	
+	public void setUnread(boolean isUnread) {
+		this.isUnread = isUnread;
+	}
+	
+	public boolean isUnread() {
+		return isUnread;
 	}
 	
 	@Override
@@ -76,6 +86,7 @@ public class Commic extends Item {
 		data.putString(PATH_KEY, path);
 		data.putBoolean(FAVORITE_KEY, isFavorite);
 		data.putInt(NUMBER_KEY, number);
+		data.putBoolean(UNREAD_KEY, isUnread);
 		
 		dest.writeBundle(data);
 	}

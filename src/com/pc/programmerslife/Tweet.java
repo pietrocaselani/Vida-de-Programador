@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 public class Tweet implements Parcelable {
 	public static final String EXTRA_TWEET = "Tweet";
+	public static final String EXTRA_TWEETS = "Tweets";
 	
 	private static final String USER_NAME_KEY = "UserName";
 	private static final String USER_PHOTO_LINK_KEY = "UserPhotoLink";

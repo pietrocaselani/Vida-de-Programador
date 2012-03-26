@@ -128,6 +128,8 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
 			startActivity(commicActivityIntent);
 			shouldReload = true;
+			commic.setUnread(false);
+			Manager.getInstance(getSherlockActivity()).updateCommic(commic);
 		} else
 			loadMore();
 	}

@@ -77,7 +77,7 @@ public class Manager implements ManagerListener, JSONRequestListener {
 	public ArrayList<Commic> getCommics(int starting, int quantity) {
 		SQLiteDatabase db = databaseHelper.getReadableDatabase();
 		
-		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite FROM commics DESC LIMIT ?, ?";
+		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite, isUnread FROM commics DESC LIMIT ?, ?";
 		
 		try {
 			Cursor c = db.rawQuery(selectSQL, new String[] {
@@ -96,6 +96,7 @@ public class Manager implements ManagerListener, JSONRequestListener {
 					commic.setLink(c.getString(3));
 					commic.setDate(new Date(c.getLong(4)));
 					commic.setFavorite(c.getInt(5) == 1);
+					commic.setUnread(c.getInt(6) == 1);
 					
 					commics.add(commic);
 					
@@ -131,6 +132,7 @@ public class Manager implements ManagerListener, JSONRequestListener {
 					commic.setLink(c.getString(3));
 					commic.setDate(new Date(c.getLong(4)));
 					commic.setFavorite(true);
+					commic.setUnread(false);
 					
 					commics.add(commic);
 				} while (c.moveToNext() == true);
@@ -159,16 +161,18 @@ public class Manager implements ManagerListener, JSONRequestListener {
 	}
 	
 	public boolean updateCommic(Commic commic) {
-		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE title = ?";
+		String updateSQL = "UPDATE commics SET isUnread = ?, isFavorite = ? WHERE title = ?";
 		
 		SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		Exception exception = null;
 		
 		int favorite = (commic.isFavorite() == true) ? 1 : 0;
+		int unread = (commic.isUnread() == true) ? 1 : 0;
 		
 		try {
 			db.execSQL(updateSQL, new Object[] {
 					favorite,
+					unread,
 					commic.getTitle()
 			});
 		} catch (SQLException e) {
