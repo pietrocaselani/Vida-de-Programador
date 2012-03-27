@@ -80,6 +80,10 @@ public class CommicManager implements ManagerListener {
 	public int getCommicsCount() {
 		return databaseHelper.getCommicsCount();
 	}
+	
+	public ArrayList<Commic> getFavorites() {
+		return databaseHelper.getFavorites();
+	}
 
 	@Override
 	public void onManagerFinishUpdate(ArrayList<Item> items, com.pc.framework.rss.Manager manager) {
@@ -89,7 +93,7 @@ public class CommicManager implements ManagerListener {
 			if (item.getCategories().contains("Tirinhas") == true)
 				commics.add(item);
 		
-		databaseHelper.save(commics);
+		databaseHelper.saveCommics(commics);
 		
 		if (listener != null)
 			listener.onFinishUpdate(this);

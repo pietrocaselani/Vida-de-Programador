@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.AsyncTask.Status;
 
 import com.pc.framework.json.JSONRequest;
@@ -14,8 +15,21 @@ import com.pc.framework.json.JSONRequest.JSONRequestListener;
 public class TwitterManager implements JSONRequestListener {
 	private static final String TWITTER_LINK = "https://twitter.com/status/user_timeline/programadorREAL.json";
 	
+	private static TwitterManager sharedInstance; 
+	
 	private TwitterListener twitterListener;
 	private JSONRequest jsonRequest;
+	private DatabaseHelper databaseHelper;
+	
+	public static TwitterManager getInstance(Context context) {
+		if (sharedInstance == null)
+			sharedInstance = new TwitterManager(context);
+		return sharedInstance;
+	}
+	
+	public TwitterManager(Context context) {
+		this.databaseHelper = new DatabaseHelper(context);
+	}
 	
 	public void setTwitterListener(TwitterListener twitterListener) {
 		this.twitterListener = twitterListener;
@@ -54,7 +68,7 @@ public class TwitterManager implements JSONRequestListener {
 			tweets.add(tweet);
 		}
 		
-		// Salvar twitters
+		databaseHelper.saveTweets(tweets);
 		
 		if (twitterListener != null)
 			twitterListener.onFinishGetTweets(tweets);

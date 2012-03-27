@@ -1,6 +1,6 @@
 CREATE TABLE "commics"
 ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT (0),
-"guid" VARCHAR PRIMARY KEY  NOT NULL,
+"guid" VARCHAR,
 "title" VARCHAR,
 "description" VARCHAR,
 "link" VARCHAR NOT NULL,
@@ -8,12 +8,11 @@ CREATE TABLE "commics"
 "pubDate" DATETIME NOT NULL,
 "isFavorite" BOOL,
 "isUnread" BOOL DEFAULT (1) );
-
 CREATE TABLE "tweets" (
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT (0),
-    "userName" TEXT,
-    "userPhotoLink" TEXT,
-    "text" TEXT,
-    "source" TEXT,
-    "date" INTEGER DEFAULT (0)
+"id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT (0),
+"userName" TEXT,
+"userPhotoLink" TEXT,
+"text" TEXT,
+"source" TEXT,
+"date" INTEGER DEFAULT (0)
 )

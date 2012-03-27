@@ -30,7 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String sql;
 		try {
 			sql = Utilities.getStringFromInputStream(context.getAssets().open("create_commics_table"));
-			db.execSQL(sql);
+			String[] queries = sql.split(";");
+			for (String query : queries)
+				db.execSQL(query);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -150,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return exception == null;
 	}
 	
-	public void save(ArrayList<Item> items) {
+	public void saveCommics(ArrayList<Item> items) {
 		SQLiteDatabase db = getWritableDatabase();
 		
 		Exception e = null;
@@ -180,5 +182,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		if (e != null)
 			Log.e("VDP-MANAGER", e.getMessage());
+	}
+	
+	public void saveTweets(ArrayList<Tweet> tweets) {
+		
 	}
 }

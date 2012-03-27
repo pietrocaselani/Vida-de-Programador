@@ -10,6 +10,7 @@ public class Tweet implements Parcelable {
 	public static final String EXTRA_TWEET = "Tweet";
 	public static final String EXTRA_TWEETS = "Tweets";
 	
+	private static final String ID_KEY = "ID";
 	private static final String USER_NAME_KEY = "UserName";
 	private static final String USER_PHOTO_LINK_KEY = "UserPhotoLink";
 	private static final String TEXT_KEY = "Text";
@@ -77,6 +78,7 @@ public class Tweet implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		Bundle data = new Bundle();
 		
+		data.putInt(ID_KEY, id);
 		data.putString(SOURCE_KEY, source);
 		data.putString(TEXT_KEY, text);
 		data.putString(USER_NAME_KEY, userName);
@@ -93,6 +95,8 @@ public class Tweet implements Parcelable {
 			Tweet tweet = new Tweet();
 			
 			Bundle data = source.readBundle();
+			
+			tweet.id = data.getInt(ID_KEY);
 			tweet.source = data.getString(SOURCE_KEY);
 			tweet.text = data.getString(TEXT_KEY);
 			tweet.userName = data.getString(USER_NAME_KEY);

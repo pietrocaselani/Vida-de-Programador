@@ -9,11 +9,13 @@ import com.pc.framework.rss.Item;
 public class Commic extends Item {
 	public static final String EXTRA_COMMIC = "Extra_Commic";
 	
+	private static final String ID_KEY = "ID";
 	private static final String FAVORITE_KEY = "Favorite";
 	private static final String UNREAD_KEY = "Unread";
 	private static final String PATH_KEY = "Path";
 	private static final String NUMBER_KEY = "Number";
 	
+	private int id;
 	private boolean isFavorite, isUnread;
 	private String path;
 	private Integer number;
@@ -23,6 +25,7 @@ public class Commic extends Item {
 		if (source != null) {
 			Bundle data = source.readBundle();
 			
+			this.id = data.getInt(ID_KEY);
 			this.isFavorite = data.getBoolean(FAVORITE_KEY);
 			this.path = data.getString(PATH_KEY);
 			this.number = data.getInt(NUMBER_KEY);
@@ -31,6 +34,14 @@ public class Commic extends Item {
 	}
 	
 	public Commic() {
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	public void setFavorite(boolean isFavorite) {
@@ -87,6 +98,7 @@ public class Commic extends Item {
 		data.putBoolean(FAVORITE_KEY, isFavorite);
 		data.putInt(NUMBER_KEY, number);
 		data.putBoolean(UNREAD_KEY, isUnread);
+		data.putInt(ID_KEY, id);
 		
 		dest.writeBundle(data);
 	}
