@@ -14,7 +14,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.pc.framework.image.ImageDownloader;
 import com.pc.framework.image.ImageDownloader.ImageDownloaderListener;
 import com.pc.programmerslife.Commic;
-import com.pc.programmerslife.Manager;
+import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.adapters.CommicPageAdapter;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -72,7 +72,7 @@ public class CommicActivity extends SherlockFragmentActivity implements ImageDow
 			
 			String text = null;
 			
-			if (Manager.getInstance(getApplicationContext()).updateCommic(commic) == true)
+			if (CommicManager.getInstance(getApplicationContext()).updateCommic(commic) == true)
 				text = getString((commic.isFavorite() == true) ? R.string.save_favorite : R.string.unsave_favorite);
 			else
 				text = getString(R.string.error_favorite);

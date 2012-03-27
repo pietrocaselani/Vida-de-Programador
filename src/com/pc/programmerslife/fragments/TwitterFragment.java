@@ -12,8 +12,8 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.pc.programmerslife.Manager;
-import com.pc.programmerslife.Manager.TwitterListener;
+import com.pc.programmerslife.CommicManager;
+import com.pc.programmerslife.CommicManager.TwitterListener;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.Tweet;
 import com.pc.programmerslife.adapters.TwitterListAdapter;
@@ -54,7 +54,7 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	
 	@Override
 	public void onDestroy() {
-		Manager.getInstance(null).setTwitterListener(null);
+		CommicManager.getInstance(null).setTwitterListener(null);
 		
 		super.onDestroy();
 	}
@@ -96,6 +96,6 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	}
 	
 	private void update() {
-		Manager.getInstance(getSherlockActivity()).getTweets(this);
+		CommicManager.getInstance(getSherlockActivity()).getTweets(this);
 	}
 }

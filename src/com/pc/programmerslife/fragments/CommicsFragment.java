@@ -21,14 +21,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.pc.programmerslife.Commic;
-import com.pc.programmerslife.Manager;
-import com.pc.programmerslife.Manager.ManagerListener;
+import com.pc.programmerslife.CommicManager;
+import com.pc.programmerslife.CommicManager.CommicManagerListener;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.activities.CommicActivity;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
-public class CommicsFragment extends SherlockFragment implements OnItemClickListener, ManagerListener {
+public class CommicsFragment extends SherlockFragment implements OnItemClickListener, CommicManagerListener {
 	private static final String COMMICS_SIZE_TAG = "CommicsSize";
 	private static final int QUANTITY = 10;
 	private static final int LOAD_MORE_TAG = 1;
@@ -129,7 +129,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			startActivity(commicActivityIntent);
 			shouldReload = true;
 			commic.setUnread(false);
-			Manager.getInstance(getSherlockActivity()).updateCommic(commic);
+			CommicManager.getInstance(getSherlockActivity()).updateCommic(commic);
 		} else
 			loadMore();
 	}
@@ -138,7 +138,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
 		progressBar.setVisibility(View.VISIBLE);
 		
-		Manager manager = Manager.getInstance(getSherlockActivity());
+		CommicManager manager = CommicManager.getInstance(getSherlockActivity());
 		manager.setLink("http://feeds.feedburner.com/VidaDeProgramador?format=xml");
 		manager.update(this);
 	}
@@ -152,7 +152,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 	
 	private void reloadCommics(int s, int q) {
-		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getCommics(s, q);
+		ArrayList<Commic> dbCommics = CommicManager.getInstance(getSherlockActivity()).getCommics(s, q);
 		if (dbCommics != null) {
 			commics.clear();
 			
@@ -164,7 +164,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	
 	private void loadMore() {
 		int s = commics.size() - 1;
-		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getCommics(s, QUANTITY);
+		ArrayList<Commic> dbCommics = CommicManager.getInstance(getSherlockActivity()).getCommics(s, QUANTITY);
 		if (dbCommics != null) {
 			commics.remove(s);
 			commics.addAll(dbCommics);
@@ -176,7 +176,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	private void reloadViews() {
 		orderCommics();
 		
-		int count = Manager.getInstance(getSherlockActivity()).getCommicsCount();
+		int count = CommicManager.getInstance(getSherlockActivity()).getCommicsCount();
 		if (count > commics.size())
 			commics.add(LOAD_MORE_TAG);
 		
@@ -202,7 +202,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 
 	@Override
-	public void onFinishUpdate(Manager manager) {
+	public void onFinishUpdate(CommicManager manager) {
 		if (isResumed() == true) {
 			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
 			progressBar.setVisibility(View.INVISIBLE);
@@ -211,7 +211,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 
 	@Override
-	public void onFailUpdate(Exception e, Manager manager) {
+	public void onFailUpdate(Exception e, CommicManager manager) {
 		if (isResumed() == true) {
 			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
 			progressBar.setVisibility(View.INVISIBLE);

@@ -7,7 +7,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.pc.programmerslife.Commic;
-import com.pc.programmerslife.Manager;
+import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.activities.CommicActivity;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
@@ -58,7 +58,7 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 	public void onResume() {
 		super.onResume();
 		
-		ArrayList<Commic> dbCommics = Manager.getInstance(getSherlockActivity()).getFavorites();
+		ArrayList<Commic> dbCommics = CommicManager.getInstance(getSherlockActivity()).getFavorites();
 		commics.clear();
 		if (dbCommics != null) {
 			commics.addAll(dbCommics);
