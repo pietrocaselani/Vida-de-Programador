@@ -60,6 +60,22 @@ public class Manager implements ManagerListener, JSONRequestListener {
 		return rssManager.cancel();
 	}
 	
+	public void setTwitterListener(TwitterListener twitterListener) {
+		this.twitterListener = twitterListener;
+	}
+	
+	public TwitterListener getTwitterListener() {
+		return twitterListener;
+	}
+	
+	public void setListener(ManagerListener listener) {
+		this.listener = listener;
+	}
+	
+	public ManagerListener getListener() {
+		return listener;
+	}
+	
 	public String getSmallCommicPath(String commicPath) {
 		int index = commicPath.indexOf(".png");
 		
@@ -244,6 +260,8 @@ public class Manager implements ManagerListener, JSONRequestListener {
 			
 			tweets.add(tweet);
 		}
+		
+		// Salvar twitters
 		
 		if (twitterListener != null)
 			twitterListener.onFinishGetTweets(tweets);

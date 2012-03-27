@@ -9,6 +9,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.pc.programmerslife.Manager;
 import com.pc.programmerslife.Manager.TwitterListener;
 import com.pc.programmerslife.R;
@@ -29,6 +32,8 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		getListView().setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 		getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
 		
+		setHasOptionsMenu(true);
+		
 		if (savedInstanceState == null)
 			tweets = new ArrayList<Tweet>();
 		else
@@ -44,8 +49,29 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	@Override
 	public void onResume() {
 		super.onResume();
+		update();
+	}
+	
+	@Override
+	public void onDestroy() {
+		Manager.getInstance(null).setTwitterListener(null);
 		
-		Manager.getInstance(getSherlockActivity()).getTweets(this);
+		super.onDestroy();
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.twitter_fragment_menu, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.twetterFragmentMenu_refresh) {
+			update();
+			return true;
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
@@ -61,13 +87,15 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		
 		((TwitterListAdapter) getListAdapter()).notifyDataSetChanged();
 		
-		if (isResumed() == true) {
-			setListShown(true);
-		}
+		setListShown(true);
 	}
 
 	@Override
 	public void onFailGetTweets(Exception e) {
 		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+	}
+	
+	private void update() {
+		Manager.getInstance(getSherlockActivity()).getTweets(this);
 	}
 }

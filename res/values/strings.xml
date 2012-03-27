@@ -15,5 +15,6 @@
     <string name="favorites">Favoritos</string>
     <string name="content_description_commic">Image View Commic</string>
     <string name="content_description_user">Image View User</string>
+    <string name="refresh">Atualizar</string>
 
 </resources>
