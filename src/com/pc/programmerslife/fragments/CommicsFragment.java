@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,14 +123,20 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		Object obj = commics.get(position);
 		
 		if (obj instanceof Commic) {
-			Commic commic = (Commic) obj;
+			final Commic commic = (Commic) obj;
 			
 			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
 			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
 			startActivity(commicActivityIntent);
 			shouldReload = true;
-			commic.setUnread(false);
-			CommicManager.getInstance(getSherlockActivity()).updateCommic(commic);
+			commic.setRead(true);
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					CommicManager.getInstance(getSherlockActivity()).updateCommic(commic);
+					notifyAdapters();
+				}
+			}, 1000);
 		} else
 			loadMore();
 	}
@@ -180,6 +187,10 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		if (count > commics.size())
 			commics.add(LOAD_MORE_TAG);
 		
+		notifyAdapters();
+	}
+	
+	private void notifyAdapters() {
 		View view = getView();
 		
 		ListView listView = (ListView) view.findViewById(R.id.commicsFragment_listView);

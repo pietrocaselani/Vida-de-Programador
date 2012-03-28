@@ -30,6 +30,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String sql;
 		try {
 			sql = Utilities.getStringFromInputStream(context.getAssets().open("create_commics_table"));
+			sql = sql.replace("\n", "");
+			sql = sql.replace("\t", "");
 			String[] queries = sql.split(";");
 			for (String query : queries)
 				db.execSQL(query);
@@ -47,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<Commic> getCommics(int starting, int quantity) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite, isUnread FROM commics DESC LIMIT ?, ?";
+		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite, isRead, guid FROM commics DESC LIMIT ?, ?";
 		
 		try {
 			Cursor c = db.rawQuery(selectSQL, new String[] {
@@ -65,8 +67,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					commic.setContent(c.getString(2));
 					commic.setLink(c.getString(3));
 					commic.setDate(new Date(c.getLong(4)));
-					commic.setFavorite(c.getInt(5) == 1);
-					commic.setUnread(c.getInt(6) == 1);
+					int favorite, read;
+					favorite = c.getInt(5);
+					commic.setFavorite(favorite == 1);
+					read = c.getInt(6);
+					commic.setRead(read == 1);
+					commic.setGuid(c.getString(7));
 					
 					commics.add(commic);
 					
@@ -86,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<Commic> getFavorites() {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String selectSQL = "SELECT title, description, content, link, pubDate FROM commics WHERE isFavorite == 1";
+		String selectSQL = "SELECT title, description, content, link, pubDate, guid FROM commics WHERE isFavorite == 1";
 		
 		try {
 			Cursor c = db.rawQuery(selectSQL, null);
@@ -101,8 +107,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					commic.setContent(c.getString(2));
 					commic.setLink(c.getString(3));
 					commic.setDate(new Date(c.getLong(4)));
+					commic.setGuid(c.getString(5));
 					commic.setFavorite(true);
-					commic.setUnread(false);
+					commic.setRead(true);
 					
 					commics.add(commic);
 				} while (c.moveToNext() == true);
@@ -131,19 +138,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public boolean updateCommic(Commic commic) {
-		String updateSQL = "UPDATE commics SET isUnread = ?, isFavorite = ? WHERE title = ?";
+		String updateSQL = "UPDATE commics SET isRead = ?, isFavorite = ? WHERE guid = ?";
 		
 		SQLiteDatabase db = getWritableDatabase();
 		Exception exception = null;
 		
 		int favorite = (commic.isFavorite() == true) ? 1 : 0;
-		int unread = (commic.isUnread() == true) ? 1 : 0;
+		int read = (commic.isRead() == true) ? 1 : 0;
 		
 		try {
 			db.execSQL(updateSQL, new Object[] {
+					read,
 					favorite,
-					unread,
-					commic.getTitle()
+					commic.getGuid()
 			});
 		} catch (SQLException e) {
 			exception = e;
@@ -158,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Exception e = null;
 		long time;
 		
-		String insertSQL = "INSERT OR REPLACE INTO commics (guid, title, description, content, link, pubDate) VALUES (?, ?, ?, ?, ?, ?)";
+		String insertSQL = "INSERT OR REPLACE INTO commics (guid, title, description, content, link, pubDate, isFavorite, isRead) VALUES (?, ?, ?, ?, ?, ?, (SELECT isFavorite FROM commics WHERE guid = ?), (SELECT isRead FROM commics WHERE guid = ?))";
 		
 		db.execSQL("BEGIN");
 		
@@ -171,7 +178,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					item.getDescription(),
 					item.getContent(),
 					item.getLink(),
-					time
+					time,
+					item.getGuid(),
+					item.getGuid()
 				});
 			} catch (SQLException insertException) {
 				e = insertException;
@@ -185,6 +194,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public void saveTweets(ArrayList<Tweet> tweets) {
-		
 	}
 }

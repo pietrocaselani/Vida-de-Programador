@@ -44,7 +44,7 @@ public class ItemGridAdapter extends ArrayAdapter<Object> {
 			
 			TextView textViewTitle = (TextView) convertView.findViewById(R.id.itemGridLayout_textView_title);
 			textViewTitle.setText(commic.getTitle());
-			textViewTitle.setTypeface((commic.isUnread() == true) ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+			textViewTitle.setTypeface((commic.isRead() == false) ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
 		} else {
 			if (convertView == null)
 				convertView = inflater.inflate(R.layout.load_more_commics_layout, parent, false);
