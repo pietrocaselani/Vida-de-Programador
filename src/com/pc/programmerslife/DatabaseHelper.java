@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String sql;
 		try {
-			sql = Utilities.getStringFromInputStream(context.getAssets().open("create_commics_table"));
+			sql = Utilities.getStringFromInputStream(context.getAssets().open("create_database_tables"));
 			sql = sql.replace("\n", "");
 			sql = sql.replace("\t", "");
 			String[] queries = sql.split(";");
