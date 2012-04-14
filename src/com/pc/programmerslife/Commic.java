@@ -73,6 +73,8 @@ public class Commic extends Item {
 		
 		int s = path.lastIndexOf("a") + 1;
 		int e = path.indexOf(".png");
+		if (e < 0)
+			e = path.indexOf(".gif");
 		String numberString = path.substring(s, e);
 		
 		try {

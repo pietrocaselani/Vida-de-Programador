@@ -194,5 +194,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public void saveTweets(ArrayList<Tweet> tweets) {
+		SQLiteDatabase db = getWritableDatabase();
+		
+		String insert = "INSERT OR REPLACE INTO tweets (userName, userPhotoLink, text, source, date) VALUES (?, ?, ?, ?, ?)";
+		Exception e = null;
+		long time;
+		
+		db.execSQL("BEGIN");
+		
+		for (Tweet tweet : tweets) {
+			time = tweet.getDate() != null ? tweet.getDate().getTime() : 0;
+			try {
+				db.execSQL(insert, new Object[] {
+						tweet.getUserName(),
+						tweet.getUserPhotoLink(),
+						tweet.getText(),
+						tweet.getSource(),
+						time
+				});
+			} catch (SQLException insertException) {
+				e = insertException;
+			}
+		}
+		
+		db.execSQL("COMMIT");
+		
+		if (e != null)
+			Log.e("VDP-MANAGER", e.getMessage());
+	}
+	
+	public ArrayList<Tweet> getTweets() {
+		return null;
 	}
 }

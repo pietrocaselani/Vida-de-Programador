@@ -1,6 +1,10 @@
 package com.pc.programmerslife;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +24,7 @@ public class TwitterManager implements JSONRequestListener {
 	private TwitterListener twitterListener;
 	private JSONRequest jsonRequest;
 	private DatabaseHelper databaseHelper;
+	private Context context;
 	
 	public static TwitterManager getInstance(Context context) {
 		if (sharedInstance == null)
@@ -28,6 +33,7 @@ public class TwitterManager implements JSONRequestListener {
 	}
 	
 	public TwitterManager(Context context) {
+		this.context = context;
 		this.databaseHelper = new DatabaseHelper(context);
 	}
 	
@@ -48,11 +54,19 @@ public class TwitterManager implements JSONRequestListener {
 		}
 	}
 	
+	public ArrayList<Tweet> getTweets() {
+		return databaseHelper.getTweets();
+	}
+	
 	private void parseTweets(JSONArray json) throws JSONException {
 		int i, size = json.length();
 		ArrayList<Tweet> tweets = new ArrayList<Tweet>(size);
 		Tweet tweet;
 		JSONObject userObject, tweetObject;
+		
+		String dateFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
 		
 		for (i = 0; i < size; i++) {
 			tweetObject = json.getJSONObject(i);
@@ -64,6 +78,16 @@ public class TwitterManager implements JSONRequestListener {
 			tweet.setUserPhotoLink(userObject.getString("profile_image_url"));
 			tweet.setSource(tweetObject.getString("source"));
 			tweet.setText(tweetObject.getString("text"));
+			String dateString = tweetObject.getString("created_at");
+			Date date;
+			try {
+				date = dateFormatter.parse(dateString);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				date = null;
+			}
+			
+			tweet.setDate(date);
 			
 			tweets.add(tweet);
 		}
