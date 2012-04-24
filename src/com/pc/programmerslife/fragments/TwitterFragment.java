@@ -54,7 +54,7 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	
 	@Override
 	public void onDestroy() {
-		TwitterManager.getInstance(null).setTwitterListener(null);
+		TwitterManager.getInstance().setTwitterListener(null);
 		super.onDestroy();
 	}
 	
@@ -95,6 +95,6 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	}
 	
 	private void update() {
-		TwitterManager.getInstance(getSherlockActivity()).getTweets(this);
+		TwitterManager.getInstance().getTweets(this);
 	}
 }

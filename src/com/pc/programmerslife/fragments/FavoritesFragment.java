@@ -58,7 +58,7 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 	public void onResume() {
 		super.onResume();
 		
-		ArrayList<Commic> dbCommics = CommicManager.getInstance(getSherlockActivity()).getFavorites();
+		ArrayList<Commic> dbCommics = CommicManager.getInstance().getFavorites();
 		commics.clear();
 		if (dbCommics != null) {
 			commics.addAll(dbCommics);

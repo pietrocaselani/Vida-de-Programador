@@ -72,7 +72,7 @@ public class CommicActivity extends SherlockFragmentActivity implements ImageDow
 			
 			String text = null;
 			
-			if (CommicManager.getInstance(getApplicationContext()).updateCommic(commic) == true)
+			if (CommicManager.getInstance().updateCommic(commic) == true)
 				text = getString((commic.isFavorite() == true) ? R.string.save_favorite : R.string.unsave_favorite);
 			else
 				text = getString(R.string.error_favorite);

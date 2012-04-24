@@ -11,20 +11,21 @@ public class CommicManager implements ManagerListener {
 	private static final String SMALL_COMMIC_LINK = "-150x150.png";
 	private static final String MEDIUM_COMMIC_LINK = "-300x300.png";
 	
-	private static CommicManager singleton;
+	private static final CommicManager singleton = new CommicManager();
 	
 	private com.pc.framework.rss.Manager rssManager;
 	private CommicManagerListener listener;
 	private DatabaseHelper databaseHelper;
 	
-	public static CommicManager getInstance(Context context) {
-		if (singleton == null)
-			singleton = new CommicManager(context);
+	public static synchronized CommicManager getInstance() {
 		return singleton;
 	}
 	
-	public CommicManager(Context context) {
+	public CommicManager() {
 		rssManager = new com.pc.framework.rss.Manager();
+	}
+	
+	public void startDatabase(Context context) {
 		databaseHelper = new DatabaseHelper(context);
 	}
 	

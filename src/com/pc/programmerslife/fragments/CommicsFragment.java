@@ -133,7 +133,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					CommicManager.getInstance(getSherlockActivity()).updateCommic(commic);
+					CommicManager.getInstance().updateCommic(commic);
 					notifyAdapters();
 				}
 			}, 1000);
@@ -145,7 +145,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.commicsFragment_progressBar);
 		progressBar.setVisibility(View.VISIBLE);
 		
-		CommicManager manager = CommicManager.getInstance(getSherlockActivity());
+		CommicManager manager = CommicManager.getInstance();
 		manager.setLink("http://feeds.feedburner.com/VidaDeProgramador?format=xml");
 		manager.update(this);
 	}
@@ -159,7 +159,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 	
 	private void reloadCommics(int s, int q) {
-		ArrayList<Commic> dbCommics = CommicManager.getInstance(getSherlockActivity()).getCommics(s, q);
+		ArrayList<Commic> dbCommics = CommicManager.getInstance().getCommics(s, q);
 		if (dbCommics != null) {
 			commics.clear();
 			
@@ -171,7 +171,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	
 	private void loadMore() {
 		int s = commics.size() - 1;
-		ArrayList<Commic> dbCommics = CommicManager.getInstance(getSherlockActivity()).getCommics(s, QUANTITY);
+		ArrayList<Commic> dbCommics = CommicManager.getInstance().getCommics(s, QUANTITY);
 		if (dbCommics != null) {
 			commics.remove(s);
 			commics.addAll(dbCommics);
@@ -183,7 +183,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	private void reloadViews() {
 		orderCommics();
 		
-		int count = CommicManager.getInstance(getSherlockActivity()).getCommicsCount();
+		int count = CommicManager.getInstance().getCommicsCount();
 		if (count > commics.size())
 			commics.add(LOAD_MORE_TAG);
 		

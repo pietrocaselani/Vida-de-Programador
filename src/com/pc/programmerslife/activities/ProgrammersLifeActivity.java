@@ -5,7 +5,9 @@ import android.support.v4.view.ViewPager;
 import android.widget.TabHost;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.R;
+import com.pc.programmerslife.TwitterManager;
 import com.pc.programmerslife.adapters.PageViewAdapter;
 import com.pc.programmerslife.fragments.CommicsFragment;
 import com.pc.programmerslife.fragments.FavoritesFragment;
@@ -42,6 +44,10 @@ public class ProgrammersLifeActivity extends SherlockFragmentActivity {
 		
 		if (savedInstanceState != null)
 			tabHost.setCurrentTabByTag(savedInstanceState.getString(CURRENT_TAG));
+		else {
+			CommicManager.getInstance().startDatabase(getApplicationContext());
+			TwitterManager.getInstance().startDatabase(getApplicationContext());
+		}
 	}
 	
 	@Override

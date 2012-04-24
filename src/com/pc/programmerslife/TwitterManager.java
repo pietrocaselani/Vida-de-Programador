@@ -19,21 +19,17 @@ import com.pc.framework.json.JSONRequest.JSONRequestListener;
 public class TwitterManager implements JSONRequestListener {
 	private static final String TWITTER_LINK = "https://twitter.com/status/user_timeline/programadorREAL.json";
 	
-	private static TwitterManager sharedInstance; 
+	private static final TwitterManager sharedInstance = new TwitterManager(); 
 	
 	private TwitterListener twitterListener;
 	private JSONRequest jsonRequest;
 	private DatabaseHelper databaseHelper;
-	private Context context;
 	
-	public static TwitterManager getInstance(Context context) {
-		if (sharedInstance == null)
-			sharedInstance = new TwitterManager(context);
+	public static synchronized TwitterManager getInstance() {
 		return sharedInstance;
 	}
 	
-	public TwitterManager(Context context) {
-		this.context = context;
+	public void startDatabase(Context context) {
 		this.databaseHelper = new DatabaseHelper(context);
 	}
 	

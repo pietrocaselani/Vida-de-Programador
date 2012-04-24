@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<Commic> getCommics(int starting, int quantity) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite, isRead, guid FROM commics DESC LIMIT ?, ?";
+		String selectSQL = "SELECT title, description, content, link, pubDate, isFavorite, isRead, guid FROM commics ORDER BY pubDate DESC LIMIT ?, ?";
 		
 		try {
 			Cursor c = db.rawQuery(selectSQL, new String[] {
