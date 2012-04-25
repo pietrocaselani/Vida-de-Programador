@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -28,8 +27,7 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		getListView().setCacheColorHint(Color.TRANSPARENT);
 		getListView().setDividerHeight(5);
 		getListView().setDivider(new ColorDrawable(Color.BLACK));
-//		getListView().setBackgroundColor(Color.TRANSPARENT);
-		getListView().setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+//		getListView().setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 		getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
 		
 		setHasOptionsMenu(true);

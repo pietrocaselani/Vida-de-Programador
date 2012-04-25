@@ -1,8 +1,6 @@
 package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +33,6 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	private static final int LOAD_MORE_TAG = 1;
 	
 	private boolean isList;
-	private boolean shouldReload;
 	private ArrayList<Object> commics;
 	
 	@Override
@@ -50,6 +47,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		commics = new ArrayList<Object>();
 		
 		View view = getView();
+		
 		ListView listView = (ListView) view.findViewById(R.id.commicsFragment_listView);
 		listView.setOnItemClickListener(this);
 		listView.setVisibility(View.VISIBLE);
@@ -73,14 +71,6 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			int q = savedInstanceState.getInt(COMMICS_SIZE_TAG);
 			reloadCommics(0, q);
 		}
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		if (shouldReload == true)
-			reloadCommics();
 	}
 	
 	@Override
@@ -128,13 +118,12 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
 			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
 			startActivity(commicActivityIntent);
-			shouldReload = true;
 			commic.setRead(true);
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					CommicManager.getInstance().updateCommic(commic);
-					notifyAdapters();
+					if (CommicManager.getInstance().updateCommic(commic) == true)
+						notifyAdapters();
 				}
 			}, 1000);
 		} else
@@ -181,8 +170,6 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 	
 	private void reloadViews() {
-		orderCommics();
-		
 		int count = CommicManager.getInstance().getCommicsCount();
 		if (count > commics.size())
 			commics.add(LOAD_MORE_TAG);
@@ -198,18 +185,6 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		
 		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
 		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
-	}
-	
-	private void orderCommics() {
-		Collections.sort(commics, new Comparator<Object>() {
-
-			@Override
-			public int compare(Object o1, Object o2) {
-				if (o1 instanceof Commic && o2 instanceof Commic)
-					return ((Commic) o2).getNumber().compareTo(((Commic) o1).getNumber());
-				return 0;
-			}
-		});
 	}
 
 	@Override
