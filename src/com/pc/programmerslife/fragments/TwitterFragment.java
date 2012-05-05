@@ -1,10 +1,11 @@
 package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
-
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -24,12 +25,6 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		getListView().setCacheColorHint(Color.TRANSPARENT);
-		getListView().setDividerHeight(5);
-		getListView().setDivider(new ColorDrawable(Color.BLACK));
-//		getListView().setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-		getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-		
 		setHasOptionsMenu(true);
 		
 		if (savedInstanceState == null)
@@ -40,7 +35,8 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		if (tweets != null) {
 			setListAdapter(new TwitterListAdapter(getSherlockActivity(), R.layout.tweet_item_layout, tweets));
 			
-			setListShown(tweets.size() > 0);
+			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
+			progressBar.setVisibility(tweets.size() > 0 ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
 	
@@ -54,6 +50,11 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 	public void onDestroy() {
 		TwitterManager.getInstance().setTwitterListener(null);
 		super.onDestroy();
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.twitter_fragment, container, false);
 	}
 	
 	@Override
@@ -84,15 +85,22 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		
 		((TwitterListAdapter) getListAdapter()).notifyDataSetChanged();
 		
-		setListShown(true);
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
+		progressBar.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
 	public void onFailGetTweets(Exception e) {
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
+		progressBar.setVisibility(View.INVISIBLE);
+		
 		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 	
 	private void update() {
+		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
+		progressBar.setVisibility(View.VISIBLE);
+		
 		TwitterManager.getInstance().getTweets(this);
 	}
 }
