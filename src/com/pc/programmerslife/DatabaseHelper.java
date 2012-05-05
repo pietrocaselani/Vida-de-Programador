@@ -134,6 +134,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		int count = (c == null || c.moveToFirst() == false) ? 0 : c.getInt(0);
 		
+		c.close();
+		
 		return count;
 	}
 	
