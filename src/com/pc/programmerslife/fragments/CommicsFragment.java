@@ -122,7 +122,7 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if (CommicManager.getInstance().updateCommic(commic) == true)
+					if (CommicManager.getInstance().updateCommicReaded(commic) == true)
 						notifyAdapters();
 				}
 			}, 1000);

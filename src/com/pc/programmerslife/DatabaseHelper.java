@@ -139,18 +139,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return count;
 	}
 	
-	public boolean updateCommic(Commic commic) {
-		String updateSQL = "UPDATE commics SET isRead = ?, isFavorite = ? WHERE guid = ?";
+	public boolean updateCommicReaded(Commic commic) {
+		String updateSQL = "UPDATE commics SET isRead = ? WHERE guid = ?";
 		
 		SQLiteDatabase db = getWritableDatabase();
 		Exception exception = null;
 		
-		int favorite = (commic.isFavorite() == true) ? 1 : 0;
 		int read = (commic.isRead() == true) ? 1 : 0;
 		
 		try {
 			db.execSQL(updateSQL, new Object[] {
 					read,
+					commic.getGuid()
+			});
+		} catch (SQLException e) {
+			exception = e;
+		}
+		
+		return exception == null;
+	}
+	
+	public boolean updateCommicFavorite(Commic commic) {
+		String updateSQL = "UPDATE commics SET isFavorite = ? WHERE guid = ?";
+		
+		SQLiteDatabase db = getWritableDatabase();
+		Exception exception = null;
+		
+		int favorite = (commic.isFavorite() == true) ? 1 : 0;
+		
+		try {
+			db.execSQL(updateSQL, new Object[] {
 					favorite,
 					commic.getGuid()
 			});

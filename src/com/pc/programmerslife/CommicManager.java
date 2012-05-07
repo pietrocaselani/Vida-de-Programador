@@ -70,8 +70,12 @@ public class CommicManager implements ManagerListener {
 		return result + MEDIUM_COMMIC_LINK;
 	}
 	
-	public boolean updateCommic(Commic commic) {
-		return databaseHelper.updateCommic(commic);
+	public boolean updateCommicReaded(Commic commic) {
+		return databaseHelper.updateCommicReaded(commic);
+	}
+	
+	public boolean updateCommicFavorite(Commic commic) {
+		return databaseHelper.updateCommicFavorite(commic);
 	}
 	
 	public ArrayList<Commic> getCommics(int starting, int quantity) {
