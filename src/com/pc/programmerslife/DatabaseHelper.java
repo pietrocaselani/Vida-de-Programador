@@ -80,11 +80,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				
 				c.close();
 				
+				db.close();
+				
 				return commics;
 			}
 		} catch (SQLException e) {
 			Log.e("VDP-MANAGER", e.getMessage());
 		}
+		
+		db.close();
 		
 		return null;
 	}
@@ -115,12 +119,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				} while (c.moveToNext() == true);
 				
 				c.close();
+				db.close();
 				
 				return commics;
 			}
 		} catch (SQLException e) {
 			Log.e("VDP-MANAGER", e.getMessage());
 		}
+		
+		db.close();
 		
 		return null;
 	}
@@ -135,6 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		int count = (c == null || c.moveToFirst() == false) ? 0 : c.getInt(0);
 		
 		c.close();
+		db.close();
 		
 		return count;
 	}
@@ -156,6 +164,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			exception = e;
 		}
 		
+		db.close();
+		
 		return exception == null;
 	}
 	
@@ -175,6 +185,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		} catch (SQLException e) {
 			exception = e;
 		}
+		
+		db.close();
 		
 		return exception == null;
 	}
@@ -211,6 +223,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		if (e != null)
 			Log.e("VDP-MANAGER", e.getMessage());
+		
+		db.close();
 	}
 	
 	public void saveTweets(ArrayList<Tweet> tweets) {
@@ -241,6 +255,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		if (e != null)
 			Log.e("VDP-MANAGER", e.getMessage());
+		
+		db.close();
 	}
 	
 	public ArrayList<Tweet> getTweets() {

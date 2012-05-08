@@ -80,6 +80,7 @@ public class Commic extends Item {
 		try {
 			this.number = Integer.parseInt(numberString);
 		} catch (NumberFormatException numberException) {
+			this.number = 0;
 		}
 	}
 	
