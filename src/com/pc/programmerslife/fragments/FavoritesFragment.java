@@ -60,16 +60,15 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 		
 		ArrayList<Commic> dbCommics = CommicManager.getInstance().getFavorites();
 		commics.clear();
-		if (dbCommics != null) {
+		if (dbCommics != null)
 			commics.addAll(dbCommics);
-			
-			View view = getView();
-			ListView listView = (ListView) view.findViewById(R.id.favoritesFragment_listView);
-			GridView gridView = (GridView) view.findViewById(R.id.favoritesFragment_gridView);
-			
-			((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
-			((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
-		}
+		
+		View view = getView();
+		ListView listView = (ListView) view.findViewById(R.id.favoritesFragment_listView);
+		GridView gridView = (GridView) view.findViewById(R.id.favoritesFragment_gridView);
+		
+		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
+		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
 	}
 	
 	@Override

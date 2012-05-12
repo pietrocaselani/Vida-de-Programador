@@ -2,5 +2,6 @@
 <resources>
     <color name="gray_background">#DEDEDE</color>
     <color name="gray_divider">#969696</color>
+    <color name="green">#669900</color>
     
 </resources>
