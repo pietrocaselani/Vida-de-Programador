@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@android:color/black"
     >
-    <ImageView
-        android:id="@+id/commicFragment_imageView"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/commicFragment_viewPager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/content_description_commic"
+        android:layout_above="@+id/commicFragment_circleIndicator"
 	/>
-</LinearLayout>
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/commicFragment_circleIndicator"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+	/>
+    <ProgressBar
+        android:id="@+id/commicFragment_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+	/>
+</RelativeLayout>

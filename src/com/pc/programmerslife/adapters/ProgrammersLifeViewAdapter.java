@@ -19,12 +19,12 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 
-public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabChangeListener, OnPageChangeListener {
+public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter implements OnTabChangeListener, OnPageChangeListener {
 	private Context context;
 	private TabHost tabHost;
 	private ViewPager viewPager;
 	
-	public PageViewAdapter(FragmentActivity activity, TabHost tabHost, ViewPager viewPager) {
+	public ProgrammersLifeViewAdapter(FragmentActivity activity, TabHost tabHost, ViewPager viewPager) {
 		super(activity.getSupportFragmentManager());
 		
 		this.context = activity;
@@ -33,7 +33,7 @@ public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabC
 		
 		tabHost.setOnTabChangedListener(this);
 		
-		viewPager.setAdapter(this);
+//		viewPager.setAdapter(this);
 		viewPager.setOnPageChangeListener(this);
 	}
 
@@ -54,7 +54,7 @@ public class PageViewAdapter extends FragmentStatePagerAdapter implements OnTabC
 	public int getCount() {
 		return 4;
 	}
-
+	
 	@Override
 	public void onPageScrollStateChanged(int state) {
 	}

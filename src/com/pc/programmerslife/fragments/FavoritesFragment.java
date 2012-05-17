@@ -2,6 +2,7 @@ package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -9,12 +10,12 @@ import com.actionbarsherlock.view.MenuItem;
 import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.R;
-import com.pc.programmerslife.activities.CommicActivity;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,9 +108,24 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 		if (object instanceof Commic) {
 			Commic commic = (Commic) object;
 			
-			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
-			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
-			startActivity(commicActivityIntent);
+			CommicFragment commicFragment = CommicFragment.newInstance(commic);
+			commicFragment.setTargetFragment(this, 11);
+			
+			FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+			
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.add(R.id.programmersLife_tabHostLayout, commicFragment);
+			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();
+			
+			setMenuVisibility(false);
 		}
+	}
+	
+	public void configureActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setTitle(getText(R.string.app_name));
+		setMenuVisibility(true);
 	}
 }

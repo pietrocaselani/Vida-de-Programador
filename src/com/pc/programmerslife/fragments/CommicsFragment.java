@@ -1,10 +1,10 @@
 package com.pc.programmerslife.fragments;
 
-import java.util.ArrayList;
 
-import android.content.Intent;
+import java.util.ArrayList;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -23,7 +24,6 @@ import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.CommicManager.CommicManagerListener;
 import com.pc.programmerslife.R;
-import com.pc.programmerslife.activities.CommicActivity;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
@@ -81,6 +81,11 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+	}
+	
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.commics_fragment_menu, menu);
 	}
@@ -115,19 +120,31 @@ public class CommicsFragment extends SherlockFragment implements OnItemClickList
 		if (obj instanceof Commic) {
 			final Commic commic = (Commic) obj;
 			
-			Intent commicActivityIntent = new Intent(getSherlockActivity(), CommicActivity.class);
-			commicActivityIntent.putExtra(Commic.EXTRA_COMMIC, commic);
-			startActivity(commicActivityIntent);
 			commic.setRead(true);
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					if (CommicManager.getInstance().updateCommicReaded(commic) == true)
-						notifyAdapters();
-				}
-			}, 1000);
+			
+			CommicFragment commicFragment = CommicFragment.newInstance(commic);
+			commicFragment.setTargetFragment(this, 10);
+			
+			FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+			
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.add(R.id.programmersLife_tabHostLayout, commicFragment);
+			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();
+			
+			setMenuVisibility(false);
+			
+			if (CommicManager.getInstance().updateCommicReaded(commic) == true)
+				notifyAdapters();
 		} else
 			loadMore();
+	}
+	
+	public void configureActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setTitle(getText(R.string.app_name));
+		setMenuVisibility(true);
 	}
 	
 	private void update() {
