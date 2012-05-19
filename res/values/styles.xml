@@ -3,10 +3,5 @@
     <style name="Theme.ProgrammersLife.ActionBar" parent="@style/Widget.Sherlock.ActionBar">
         <item name="background">@android:color/black</item>
         <item name="android:background">@android:color/black</item>
-    </style>
-    <style name="Theme.ProgrammersLife" parent="@style/Theme.HoloEverywhereDark.Sherlock">
-        <item name="actionBarStyle">@style/Theme.ProgrammersLife.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Theme.ProgrammersLife.ActionBar</item>
-    </style>
-    
+    </style>    
 </resources>
