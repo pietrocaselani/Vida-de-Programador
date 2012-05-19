@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textAppearance="@android:style/TextAppearance.Large"
-            android:textStyle="bold"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"

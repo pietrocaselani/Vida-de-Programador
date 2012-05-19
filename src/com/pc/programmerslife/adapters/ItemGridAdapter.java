@@ -18,10 +18,14 @@ public class ItemGridAdapter extends ArrayAdapter<Object> {
 	private static final int LOAD_MORE_VIEW_TYPE = 1;
 	
 	private LayoutInflater inflater;
+	private Typeface typefaceBold, typefaceRegular;
 
 	public ItemGridAdapter(Context context, int textViewResourceId, List<Object> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
+		
+		typefaceBold = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Black.ttf");
+		typefaceRegular = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
 	}
 	
 	@Override
@@ -37,19 +41,34 @@ public class ItemGridAdapter extends ArrayAdapter<Object> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (getItemViewType(position) == COMMIC_VIEW_TYPE) {
-			if (convertView == null)
+			CommicViewHolder holder;
+			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_grid_layout, parent, false);
+				
+				holder = new CommicViewHolder();
+				holder.textViewTitle = (TextView) convertView.findViewById(R.id.itemGridLayout_textView_title);
+				
+				convertView.setTag(holder);
+			} else
+				holder = (CommicViewHolder) convertView.getTag();
 			
 			Commic commic = (Commic) getItem(position);
 			
-			TextView textViewTitle = (TextView) convertView.findViewById(R.id.itemGridLayout_textView_title);
-			textViewTitle.setText(commic.getTitle());
-			textViewTitle.setTypeface((commic.isRead() == false) ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+			holder.textViewTitle.setText(commic.getTitle());
+			holder.textViewTitle.setTypeface((commic.isRead() == false) ? typefaceBold : typefaceRegular);
 		} else {
-			if (convertView == null)
+			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.load_more_commics_layout, parent, false);
+				
+				TextView textViewLoadMore = (TextView) convertView.findViewById(R.id.loadMoreCommics_textView);
+				textViewLoadMore.setTypeface(typefaceBold);
+			}
 		}
 				
 		return convertView;
+	}
+	
+	static class CommicViewHolder {
+		TextView textViewTitle;
 	}
 }

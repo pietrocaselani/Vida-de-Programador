@@ -33,7 +33,6 @@ public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter implem
 		
 		tabHost.setOnTabChangedListener(this);
 		
-//		viewPager.setAdapter(this);
 		viewPager.setOnPageChangeListener(this);
 	}
 
