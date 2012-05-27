@@ -125,6 +125,8 @@ public class CommicsFragment extends SherlockListFragment implements CommicManag
 			
 			reloadViews();
 		}
+		
+		getListView().smoothScrollToPositionFromTop(s, 0);
 	}
 	
 	private void reloadViews() {

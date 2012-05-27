@@ -53,8 +53,8 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 			this.commic = savedInstanceState.getParcelable(Commic.EXTRA_COMMIC);
 		
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(commic.getTitle());
 		
 		setHasOptionsMenu(true);
