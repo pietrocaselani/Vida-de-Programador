@@ -10,7 +10,6 @@ import com.viewpagerindicator.TitleProvider;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.View;
 
 public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter implements TitleProvider {
 	private FragmentActivity fragmentActivity;
@@ -19,16 +18,6 @@ public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter implem
 		super(fragmentActivity.getSupportFragmentManager());
 		
 		this.fragmentActivity = fragmentActivity;
-	}
-	
-	@Override
-	public boolean isViewFromObject(View view, Object object) {
-		if (object instanceof Fragment) {
-			View fView = ((Fragment) object).getView();
-			boolean x = fView == view;
-			return x;
-		}
-		return super.isViewFromObject(view, object);
 	}
 
 	@Override

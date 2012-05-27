@@ -10,9 +10,13 @@
 
     <!-- Tabs -->
     <dimen name="tab_padding_top_bottom">15dp</dimen>
-    <dimen name="tab_padding_left_right">40dp</dimen>
+    <dimen name="tab_padding_left_right">35dp</dimen>
 
     <!-- Bottom ActionBar -->
     <dimen name="bottom_action_bar_height">48dp</dimen>
+    
+    <!-- List View -->
+    <dimen name="list_view_other_items_height">44dp</dimen>
+    <dimen name="list_view_items_height">64dp</dimen>
 
 </resources>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Vida de Programador</string>
-    <string name="list">Lista</string>
-    <string name="mosaic">Mosaíco</string>
     <string name="commics">Tirinhas</string>
     <string name="twitter">Twitter</string>
     <string name="informations">Info</string>
@@ -22,5 +20,8 @@
     <string name="addToFavorites">Adicionar aos favoritos</string>
     <string name="removeFromFavorites">Remover dos favoritos</string>
     <string name="share">Compartilhar</string>
+    <string name="emptyText">Não há tirinhas\nTente novamente mais tarde</string>
+    <string name="emptyFavorites">Nenhuma tirinha favoritada.</string>
+    <string name="commiNumberText">Tirinha: %1$d</string>
 
 </resources>

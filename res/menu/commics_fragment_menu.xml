@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/commicsFragmentMenu_viewMode" android:title="@string/mosaic"
-        android:icon="@drawable/action_bar_show_as_grid" android:showAsAction="ifRoom"/>
+    <item android:id="@+id/commicsFragmentMenu_refresh" android:title="@string/refresh" android:icon="@drawable/action_bar_refresh" android:showAsAction="ifRoom"/>
     
 
 </menu>

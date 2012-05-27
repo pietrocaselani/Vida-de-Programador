@@ -130,15 +130,17 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 
 	@Override
 	public void onImageFinishDownload(Bitmap image, String link, ImageDownloader downloader) {
-		Bitmap[] bitmaps = splitBitmap(image);
-		
-		ViewPager bitmapsPager = (ViewPager) getView().findViewById(R.id.commicFragment_viewPager);
-		bitmapsPager.setAdapter(new BitmapPageAdapter(getSherlockActivity().getSupportFragmentManager(), bitmaps));
-		
-		CirclePageIndicator circleIndicator = (CirclePageIndicator) getView().findViewById(R.id.commicFragment_circleIndicator);
-		circleIndicator.setViewPager(bitmapsPager);
-		
-		((ProgressBar) getView().findViewById(R.id.commicFragment_progressBar)).setVisibility(View.INVISIBLE);
+		if (isVisible() == true) {
+			Bitmap[] bitmaps = splitBitmap(image);
+			
+			ViewPager bitmapsPager = (ViewPager) getView().findViewById(R.id.commicFragment_viewPager);
+			bitmapsPager.setAdapter(new BitmapPageAdapter(getSherlockActivity().getSupportFragmentManager(), bitmaps));
+			
+			CirclePageIndicator circleIndicator = (CirclePageIndicator) getView().findViewById(R.id.commicFragment_circleIndicator);
+			circleIndicator.setViewPager(bitmapsPager);
+			
+			((ProgressBar) getView().findViewById(R.id.commicFragment_progressBar)).setVisibility(View.INVISIBLE);
+		}
 	}
 
 	@Override

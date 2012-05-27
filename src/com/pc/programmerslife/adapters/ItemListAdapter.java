@@ -12,14 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ItemListAdapter extends ArrayAdapter<Object> {
-	private static final int COMMIC_VIEW_TYPE = 0;
-	private static final int LOAD_MORE_VIEW_TYPE = 1;
-	
+public class ItemListAdapter extends ArrayAdapter<Commic> {
 	private LayoutInflater inflater;
 	private Typeface typefaceBold, typefaceRegular;
 
-	public ItemListAdapter(Context context, int textViewResourceId, List<Object> objects) {
+	public ItemListAdapter(Context context, int textViewResourceId, List<Commic> objects) {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
 		
@@ -28,43 +25,30 @@ public class ItemListAdapter extends ArrayAdapter<Object> {
 	}
 	
 	@Override
-	public int getViewTypeCount() {
-		return 2;
-	}
-	
-	@Override
-	public int getItemViewType(int position) {
-		return (getItem(position) instanceof Integer) ? LOAD_MORE_VIEW_TYPE : COMMIC_VIEW_TYPE;
-	}
-	
-	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (getItemViewType(position) == COMMIC_VIEW_TYPE) {
-			CommicViewHolder holder;
-			if (convertView == null) {
-				convertView = inflater.inflate(R.layout.item_list_layout, parent, false);
-				
-				holder = new CommicViewHolder();
-				holder.textViewTitle = (TextView) convertView.findViewById(R.id.itemListLayout_textView_title);
-				holder.textViewNumber = (TextView) convertView.findViewById(R.id.itemListLayout_textView_number);
-				
-				convertView.setTag(holder);
-			} else
-				holder = (CommicViewHolder) convertView.getTag();
+		CommicViewHolder holder;
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.item_list_layout, parent, false);
 			
-			Commic commic = (Commic) getItem(position);
+			holder = new CommicViewHolder();
+			holder.textViewTitle = (TextView) convertView.findViewById(R.id.itemListLayout_textView_title);
+			holder.textViewNumber = (TextView) convertView.findViewById(R.id.itemListLayout_textView_number);
 			
-			holder.textViewTitle.setText(commic.getTitle());
-			holder.textViewTitle.setTypeface((commic.isRead() == false) ? typefaceBold : typefaceRegular);
-			
-			holder.textViewNumber.setText(String.valueOf(commic.getNumber()));
-		} else {
-			if (convertView == null) {
-				convertView = inflater.inflate(R.layout.load_more_commics_layout, parent, false);
-				
-				TextView textViewLoadMore = (TextView) convertView.findViewById(R.id.loadMoreCommics_textView);
-				textViewLoadMore.setTypeface(typefaceBold);
-			}
+			convertView.setTag(holder);
+		} else
+			holder = (CommicViewHolder) convertView.getTag();
+		
+		Commic commic = getItem(position);
+		
+		holder.textViewTitle.setText(commic.getTitle());
+		holder.textViewTitle.setTypeface((commic.isRead() == false) ? typefaceBold : typefaceRegular);
+		
+		int commicNumber = commic.getNumber();
+		if (commicNumber == 0)
+			holder.textViewNumber.setVisibility(View.INVISIBLE);
+		else {
+			holder.textViewNumber.setVisibility(View.VISIBLE);
+			holder.textViewNumber.setText(getContext().getString(R.string.commiNumberText, commicNumber));
 		}
 		
 		return convertView;

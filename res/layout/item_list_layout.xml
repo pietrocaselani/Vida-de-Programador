@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:layout_height="@dimen/list_view_items_height"
+    android:orientation="vertical"
     >
-    <TextView
-        android:id="@+id/itemListLayout_textView_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textStyle="bold"
-	/>
     <TextView
         android:id="@+id/itemListLayout_textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_large"
         android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
+        android:lines="1"
+        android:ellipsize="end"
 	/>
-</LinearLayout>
+    <TextView
+        android:id="@+id/itemListLayout_textView_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_micro"
+        android:textStyle="bold"
+        android:textColor="@color/dark_white"
+        android:layout_below="@+id/itemListLayout_textView_title"
+        android:layout_alignLeft="@+id/itemListLayout_textView_title"
+	/>
+</RelativeLayout>
