@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="titles">
-        <item >Tirinhas</item>
-        <item >Twitter</item>
-        <item >Informações</item>
+        <item >@string/commics</item>
+        <item >@string/favorites</item>
+        <item >@string/twitter</item>
+        <item >@string/informations</item>
     </string-array>
     
 </resources>

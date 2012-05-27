@@ -2,7 +2,6 @@ package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -10,12 +9,12 @@ import com.actionbarsherlock.view.MenuItem;
 import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.R;
+import com.pc.programmerslife.activities.CommicActivity;
 import com.pc.programmerslife.adapters.ItemGridAdapter;
 import com.pc.programmerslife.adapters.ItemListAdapter;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +26,19 @@ import android.widget.ListView;
 public class FavoritesFragment extends SherlockFragment implements OnItemClickListener {
 	private boolean isList;
 	private ArrayList<Object> commics;
+	private ItemListAdapter listAdapter;
+	private ItemGridAdapter gridAdapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.favorites_fragment, container, false);
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		
+		reload();
 	}
 	
 	@Override
@@ -39,16 +47,19 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 		
 		commics = new ArrayList<Object>();
 		
+		listAdapter = new ItemListAdapter(getSherlockActivity(), R.layout.item_list_layout, commics);
+		gridAdapter = new ItemGridAdapter(getSherlockActivity(), R.layout.item_grid_layout, commics);
+		
 		View view = getView();
 		ListView listView = (ListView) view.findViewById(R.id.favoritesFragment_listView);
 		listView.setOnItemClickListener(this);
 		listView.setVisibility(View.VISIBLE);
-		listView.setAdapter(new ItemListAdapter(getSherlockActivity(), R.layout.item_list_layout, commics));
+		listView.setAdapter(listAdapter);
 		
 		GridView gridView = (GridView) view.findViewById(R.id.favoritesFragment_gridView);
 		gridView.setOnItemClickListener(this);
 		gridView.setVisibility(View.INVISIBLE);
-		gridView.setAdapter(new ItemGridAdapter(getSherlockActivity(), R.layout.item_grid_layout, commics));
+		gridView.setAdapter(gridAdapter);
 		
 		isList = true;
 		
@@ -59,17 +70,7 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 	public void onResume() {
 		super.onResume();
 		
-		ArrayList<Commic> dbCommics = CommicManager.getInstance().getFavorites();
-		commics.clear();
-		if (dbCommics != null)
-			commics.addAll(dbCommics);
-		
-		View view = getView();
-		ListView listView = (ListView) view.findViewById(R.id.favoritesFragment_listView);
-		GridView gridView = (GridView) view.findViewById(R.id.favoritesFragment_gridView);
-		
-		((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
-		((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
+		reload();
 	}
 	
 	@Override
@@ -87,11 +88,11 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 			if (isList == true) {
 				listView.setVisibility(View.INVISIBLE);
 				gridView.setVisibility(View.VISIBLE);
-				item.setIcon(R.drawable.ic_menu_list);
+				item.setIcon(R.drawable.action_bar_show_as_list);
 			} else {
 				listView.setVisibility(View.VISIBLE);
 				gridView.setVisibility(View.INVISIBLE);
-				item.setIcon(R.drawable.ic_menu_grid);
+				item.setIcon(R.drawable.action_bar_show_as_grid);
 			}
 			
 			isList = !isList;
@@ -108,24 +109,36 @@ public class FavoritesFragment extends SherlockFragment implements OnItemClickLi
 		if (object instanceof Commic) {
 			Commic commic = (Commic) object;
 			
-			CommicFragment commicFragment = CommicFragment.newInstance(commic);
-			commicFragment.setTargetFragment(this, 11);
-			
-			FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
-			
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.add(R.id.programmersLife_tabHostLayout, commicFragment);
-			fragmentTransaction.addToBackStack(null);
-			fragmentTransaction.commit();
-			
-			setMenuVisibility(false);
+			startActivity(new Intent(getSherlockActivity(), CommicActivity.class).putExtra(Commic.EXTRA_COMMIC, commic));
 		}
 	}
 	
-	public void configureActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setTitle(getText(R.string.app_name));
-		setMenuVisibility(true);
+	public void reload() {
+		ArrayList<Commic> dbCommics = CommicManager.getInstance().getFavorites();
+		
+		if (commics == null)
+			commics = new ArrayList<Object>();
+		
+		commics.clear();
+		
+		if (dbCommics != null)
+			commics.addAll(dbCommics);
+		
+		if (listAdapter != null)
+			listAdapter.notifyDataSetChanged();
+		if (gridAdapter != null)
+			gridAdapter.notifyDataSetChanged();
+		
+//		View view = getView();
+//		if (view != null) {
+//			ListView listView = (ListView) view.findViewById(R.id.favoritesFragment_listView);
+//			GridView gridView = (GridView) view.findViewById(R.id.favoritesFragment_gridView);
+//			
+//			if (gridView.getAdapter() instanceof ItemGridAdapter)
+//				((ItemGridAdapter) gridView.getAdapter()).notifyDataSetChanged();
+//			
+//			if (listView.getAdapter() instanceof ItemListAdapter)
+//				((ItemListAdapter) listView.getAdapter()).notifyDataSetChanged();
+//		}
 	}
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.ProgrammersLife.ActionBar" parent="@style/Widget.Sherlock.ActionBar">
+    <style name="ProgrammersLife.ActionBar" parent="@style/Widget.Sherlock.ActionBar">
         <item name="background">@android:color/black</item>
         <item name="android:background">@android:color/black</item>
-    </style>    
+    </style>
+    <style name="ProgrammersLife.TabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/tab_background</item>
+    </style>
 </resources>

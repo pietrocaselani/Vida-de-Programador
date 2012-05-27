@@ -6,8 +6,8 @@
     >
     <android.support.v4.view.ViewPager
         android:id="@+id/commicFragment_viewPager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/commicFragment_circleIndicator"
 	/>
     <com.viewpagerindicator.CirclePageIndicator
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"
 	/>
     <ProgressBar
         android:id="@+id/commicFragment_progressBar"

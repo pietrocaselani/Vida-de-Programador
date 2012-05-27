@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.ProgrammersLife" parent="@style/Theme.HoloEverywhereDark.Sherlock">
-        <item name="actionBarStyle">@style/Theme.ProgrammersLife.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Theme.ProgrammersLife.ActionBar</item>
+        <item name="actionBarStyle">@style/ProgrammersLife.ActionBar</item>
+        <item name="android:actionBarStyle">@style/ProgrammersLife.ActionBar</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/ProgrammersLife.TabPageIndicator</item>
     </style>
 </resources>

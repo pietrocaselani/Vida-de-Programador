@@ -19,5 +19,8 @@
     <string name="about">Sobre</string>
     <string name="site">Site</string>
     <string name="app">Aplicativo</string>
+    <string name="addToFavorites">Adicionar aos favoritos</string>
+    <string name="removeFromFavorites">Remover dos favoritos</string>
+    <string name="share">Compartilhar</string>
 
 </resources>

@@ -24,6 +24,9 @@ import com.pc.programmerslife.adapters.BitmapPageAdapter;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class CommicFragment extends SherlockFragment implements ImageDownloaderListener {
+	private static final int FAVORITE_ITEM_ID = 10;
+	private static final int SHARE_ITEM_ID = 11;
+	
 	private Commic commic;
 	private ImageDownloader imageDownloader;
 	
@@ -46,8 +49,8 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		this.commic = (Commic) ((savedInstanceState == null) ? getArguments().getParcelable(Commic.EXTRA_COMMIC) :
-			savedInstanceState.getParcelable(Commic.EXTRA_COMMIC));
+		if (savedInstanceState != null)
+			this.commic = savedInstanceState.getParcelable(Commic.EXTRA_COMMIC);
 		
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(true);
@@ -56,10 +59,7 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 		
 		setHasOptionsMenu(true);
 		
-		((ProgressBar) getView().findViewById(R.id.commicFragment_progressBar)).setVisibility(View.VISIBLE);
-		
-		imageDownloader = new ImageDownloader(getSherlockActivity(), this);
-		imageDownloader.getAsyncImage(commic.getPath());
+		update();
 	}
 	
 	@Override
@@ -67,16 +67,6 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 		imageDownloader.cancel(true);
 		
 		super.onDestroy();
-	}
-	
-	@Override
-	public void onDestroyView() {
-		if (getTargetFragment() instanceof CommicsFragment)
-			((CommicsFragment) getTargetFragment()).configureActionBar();
-		else if (getTargetFragment() instanceof FavoritesFragment)
-			((FavoritesFragment) getTargetFragment()).configureActionBar();
-		
-		super.onDestroyView();
 	}
 	
 	@Override
@@ -88,31 +78,48 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MenuItem favoriteItem = menu.add(0, FAVORITE_ITEM_ID, 0, null);
+		favoriteItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		if (commic.isFavorite() == true) {
+			favoriteItem.setTitle(R.string.removeFromFavorites);
+			favoriteItem.setIcon(R.drawable.action_bar_favorite);
+		} else {
+			favoriteItem.setTitle(R.string.addToFavorites);
+			favoriteItem.setIcon(R.drawable.action_bar_unfavorite);
+		}
+		
 		if (commic.getLink() != null)
-			inflater.inflate(R.menu.commic_activity_menu, menu);
+			menu.add(0, SHARE_ITEM_ID, 0, R.string.share).setIcon(R.drawable.action_bar_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
-			getSherlockActivity().getSupportFragmentManager().popBackStack();
+			getSherlockActivity().finish();
 			return true;
-		} else if (item.getItemId() == R.id.commicActivityMenu_share) {
+		} else if (item.getItemId() == SHARE_ITEM_ID) {
 			Intent shareIntent = new Intent(Intent.ACTION_SEND);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, (commic.getLink() != null) ? commic.getLink() : commic.getPath());
 			shareIntent.setType("text/plain");
 			startActivity(Intent.createChooser(shareIntent, getString(R.string.share_using)));
 			return true;
-		} else if (item.getItemId() == R.id.commicActivityMenu_favorite) {
+		} else if (item.getItemId() == FAVORITE_ITEM_ID) {
 			boolean isFavorite = commic.isFavorite();
 			commic.setFavorite(!isFavorite);
 			
 			String text = null;
 			
-			if (CommicManager.getInstance().updateCommicFavorite(commic) == true)
-				text = getString((commic.isFavorite() == true) ? R.string.save_favorite : R.string.unsave_favorite);
-			else
-				text = getString(R.string.error_favorite);
+			if (CommicManager.getInstance().updateCommicFavorite(commic) == true) {
+				if (commic.isFavorite() == true) {
+					text = getString(R.string.save_favorite);
+					item.setIcon(R.drawable.action_bar_favorite);
+					item.setTitle(R.string.removeFromFavorites);
+				} else {
+					text = getString(R.string.unsave_favorite);
+					item.setIcon(R.drawable.action_bar_unfavorite);
+					item.setTitle(R.string.addToFavorites);
+				}
+			}
 			
 			Toast.makeText(getSherlockActivity(), text, Toast.LENGTH_SHORT).show();
 			
@@ -137,6 +144,18 @@ public class CommicFragment extends SherlockFragment implements ImageDownloaderL
 	@Override
 	public void onImageFailDownload(Exception e, String link, ImageDownloader downloader) {
 		((ProgressBar) getView().findViewById(R.id.commicFragment_progressBar)).setVisibility(View.INVISIBLE);
+	}
+	
+	public void setCommic(Commic commic) {
+		this.commic = commic;
+		update();
+	}
+	
+	private void update() {
+		((ProgressBar) getView().findViewById(R.id.commicFragment_progressBar)).setVisibility(View.VISIBLE);
+		
+		imageDownloader = new ImageDownloader(getSherlockActivity(), this);
+		imageDownloader.getAsyncImage(commic.getPath());
 	}
 	
 	private Bitmap[] splitBitmap(Bitmap bitmap) {
