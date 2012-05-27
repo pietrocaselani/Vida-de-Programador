@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text sizes -->
+    <dimen name="text_size_extra_micro">10sp</dimen>
+    <dimen name="text_size_micro">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+
+    <!-- Tabs -->
+    <dimen name="tab_padding_top_bottom">15dp</dimen>
+    <dimen name="tab_padding_left_right">40dp</dimen>
+
+    <!-- Bottom ActionBar -->
+    <dimen name="bottom_action_bar_height">48dp</dimen>
+
+</resources>

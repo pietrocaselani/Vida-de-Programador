@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <color name="gray_background">#DEDEDE</color>
     <color name="gray_divider">#969696</color>
     <color name="green">#669900</color>
+    
+    <!-- A transparent black -->
+    <color name="transparent_black">#99000000</color>
+    
+    <!-- Black -->
+    <color name="black">#ff000000</color>
     
 </resources>

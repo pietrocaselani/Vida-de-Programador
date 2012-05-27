@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="ProgrammersLife.ActionBar" parent="@style/Widget.Sherlock.ActionBar">
-        <item name="background">@android:color/black</item>
-        <item name="android:background">@android:color/black</item>
     </style>
     <style name="ProgrammersLife.TabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/bottom_action_bar_height</item>
         <item name="android:background">@drawable/tab_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">@dimen/tab_padding_top_bottom</item>
+        <item name="android:paddingLeft">@dimen/tab_padding_left_right</item>
+        <item name="android:paddingRight">@dimen/tab_padding_left_right</item>
+        <item name="android:paddingTop">@dimen/tab_padding_top_bottom</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:selectAllOnFocus">false</item>
+    </style>
+    <style name="ProgrammersLife.TabPageIndicator.Text" parent="Widget.TabPageIndicator.Text">
+        <item name="android:textColor">@color/tab_text_color</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

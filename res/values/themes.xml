@@ -3,6 +3,7 @@
     <style name="Theme.ProgrammersLife" parent="@style/Theme.HoloEverywhereDark.Sherlock">
         <item name="actionBarStyle">@style/ProgrammersLife.ActionBar</item>
         <item name="android:actionBarStyle">@style/ProgrammersLife.ActionBar</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/ProgrammersLife.TabPageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/ProgrammersLife.TabPageIndicator</item>
+        <item name="vpiTabTextStyle">@style/ProgrammersLife.TabPageIndicator.Text</item>
     </style>
 </resources>
