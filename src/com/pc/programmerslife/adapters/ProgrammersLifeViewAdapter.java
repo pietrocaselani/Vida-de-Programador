@@ -5,19 +5,18 @@ import com.pc.programmerslife.fragments.CommicsFragment;
 import com.pc.programmerslife.fragments.FavoritesFragment;
 import com.pc.programmerslife.fragments.InformationsFragment;
 import com.pc.programmerslife.fragments.TwitterFragment;
-import com.viewpagerindicator.TitleProvider;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter implements TitleProvider {
-	private FragmentActivity fragmentActivity;
+public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter {
+	private String[] titles;
 	
 	public ProgrammersLifeViewAdapter(FragmentActivity fragmentActivity) {
 		super(fragmentActivity.getSupportFragmentManager());
 		
-		this.fragmentActivity = fragmentActivity;
+		titles = fragmentActivity.getResources().getStringArray(R.array.titles);
 	}
 
 	@Override
@@ -37,9 +36,9 @@ public class ProgrammersLifeViewAdapter extends FragmentStatePagerAdapter implem
 	public int getCount() {
 		return 4;
 	}
-
+	
 	@Override
-	public String getTitle(int position) {
-		return fragmentActivity.getResources().getStringArray(R.array.titles)[position];
+	public CharSequence getPageTitle(int position) {
+		return titles[position];
 	}
 }

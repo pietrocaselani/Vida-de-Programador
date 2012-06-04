@@ -18,5 +18,6 @@
     <!-- List View -->
     <dimen name="list_view_other_items_height">44dp</dimen>
     <dimen name="list_view_items_height">64dp</dimen>
+    <dimen name="listView_art">64dp</dimen>
 
 </resources>
