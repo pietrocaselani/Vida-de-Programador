@@ -4,7 +4,7 @@
         <item name="background">@color/black</item>
         <item name="android:background">@color/black</item>
     </style>
-    <style name="ProgrammersLife.TabPageIndicator" parent="Widget.TabPageIndicator">
+    <style name="ProgrammersLife.TabPageIndicator" parent="@style/Widget.TabPageIndicator">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/bottom_action_bar_height</item>
         <item name="android:background">@drawable/tab_background</item>
@@ -16,10 +16,11 @@
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:selectAllOnFocus">false</item>
+        <item name="android:textAppearance">@style/ProgrammersLife.TabPageIndicator.Text</item>
     </style>
     <style name="ProgrammersLife.TabPageIndicator.Text" parent="@style/TextAppearance.TabPageIndicator">
         <item name="android:textColor">@color/tab_text_color</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>

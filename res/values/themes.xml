@@ -4,6 +4,5 @@
         <item name="actionBarStyle">@style/ProgrammersLife.ActionBar</item>
         <item name="android:actionBarStyle">@style/ProgrammersLife.ActionBar</item>
         <item name="vpiTabPageIndicatorStyle">@style/ProgrammersLife.TabPageIndicator</item>
-        <item name="android:textAppearance">@style/ProgrammersLife.TabPageIndicator.Text</item>
     </style>
 </resources>
