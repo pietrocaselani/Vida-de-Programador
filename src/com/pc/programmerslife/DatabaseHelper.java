@@ -96,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public ArrayList<Commic> getFavorites() {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		String selectSQL = "SELECT title, description, content, link, pubDate, guid FROM commics WHERE isFavorite == 1";
+		String selectSQL = "SELECT title, description, content, link, pubDate, guid FROM commics WHERE isFavorite == 1 ORDER BY pubDate DESC";
 		
 		try {
 			Cursor c = db.rawQuery(selectSQL, null);
