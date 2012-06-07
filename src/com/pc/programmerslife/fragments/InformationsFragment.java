@@ -23,7 +23,8 @@ public class InformationsFragment extends SherlockListFragment {
 		infos.add(getString(R.string.site));
 		infos.add(getString(R.string.app));
 		
-		getListView().setSelector(android.R.drawable.list_selector_background);
+//		getListView().setSelector(android.R.drawable.list_selector_background);
+		getListView().setDivider(getResources().getDrawable(R.drawable.list_divider_holo_light));
 		
 		setListAdapter(new InfoAdapter(getSherlockActivity(), R.layout.info_item_layout, infos));
 	}

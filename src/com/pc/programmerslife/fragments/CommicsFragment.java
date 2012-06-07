@@ -3,7 +3,6 @@ package com.pc.programmerslife.fragments;
 import java.util.ArrayList;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +83,7 @@ public class CommicsFragment extends SherlockListFragment implements CommicManag
 	
 	private void configureView() {
 		getView().setBackgroundColor(Color.WHITE);
-		getListView().setDivider(new ColorDrawable(Color.BLACK));
+		getListView().setDivider(getResources().getDrawable(R.drawable.list_divider_holo_light));
 		getListView().setDividerHeight(1);
 		
 		setEmptyText(getString(R.string.emptyText));

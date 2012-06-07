@@ -10,7 +10,6 @@ import com.pc.programmerslife.adapters.ItemListAdapter;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -45,7 +44,7 @@ public class FavoritesFragment extends SherlockListFragment {
 	
 	private void configureView() {
 		getView().setBackgroundColor(Color.WHITE);
-		getListView().setDivider(new ColorDrawable(Color.BLACK));
+		getListView().setDivider(getResources().getDrawable(R.drawable.list_divider_holo_light));
 		getListView().setDividerHeight(1);
 		
 		setEmptyText(getString(R.string.emptyFavorites));
