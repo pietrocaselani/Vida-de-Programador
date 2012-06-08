@@ -16,6 +16,7 @@
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:selectAllOnFocus">false</item>
-        
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 </resources>

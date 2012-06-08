@@ -2,8 +2,6 @@ package com.pc.programmerslife.fragments;
 
 import java.util.ArrayList;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +35,6 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		
 		if (tweets != null) {
 			setListAdapter(new TwitterListAdapter(getSherlockActivity(), R.layout.tweet_item_layout, tweets));
-			
-			getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
 			
 			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
 			progressBar.setVisibility(tweets.size() > 0 ? View.VISIBLE : View.INVISIBLE);

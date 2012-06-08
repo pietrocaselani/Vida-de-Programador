@@ -3,7 +3,8 @@ package com.pc.programmerslife.fragments;
 import java.util.ArrayList;
 import android.content.Intent;
 import android.graphics.Color;
-//import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.pc.framework.Utilities;
 import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.CommicManager.CommicManagerListener;
@@ -84,7 +86,8 @@ public class CommicsFragment extends SherlockListFragment implements CommicManag
 	
 	private void configureView() {
 		getView().setBackgroundColor(Color.WHITE);
-		getListView().setDividerHeight(1);
+		getListView().setDivider(new ColorDrawable(getResources().getColor(R.color.gray_divider)));
+		getListView().setDividerHeight(Utilities.getPixelValue(1, getSherlockActivity()));
 		getListView().setSelector(getResources().getDrawable(R.drawable.list_selector_holo_light));
 		
 		setEmptyText(getString(R.string.emptyText));

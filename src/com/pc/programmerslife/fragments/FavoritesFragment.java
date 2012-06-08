@@ -2,6 +2,8 @@ package com.pc.programmerslife.fragments;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import java.util.ArrayList;
+
+import com.pc.framework.Utilities;
 import com.pc.programmerslife.Commic;
 import com.pc.programmerslife.CommicManager;
 import com.pc.programmerslife.R;
@@ -10,6 +12,7 @@ import com.pc.programmerslife.adapters.ItemListAdapter;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -44,7 +47,8 @@ public class FavoritesFragment extends SherlockListFragment {
 	
 	private void configureView() {
 		getView().setBackgroundColor(Color.WHITE);
-		getListView().setDividerHeight(1);
+		getListView().setDivider(new ColorDrawable(getResources().getColor(R.color.gray_divider)));
+		getListView().setDividerHeight(Utilities.getPixelValue(1, getSherlockActivity()));
 		getListView().setSelector(getResources().getDrawable(R.drawable.list_selector_holo_light));
 		
 		setEmptyText(getString(R.string.emptyFavorites));
