@@ -85,6 +85,7 @@ public class CommicsFragment extends SherlockListFragment implements CommicManag
 	private void configureView() {
 		getView().setBackgroundColor(Color.WHITE);
 		getListView().setDividerHeight(1);
+		getListView().setSelector(getResources().getDrawable(R.drawable.list_selector_holo_light));
 		
 		setEmptyText(getString(R.string.emptyText));
 	}
