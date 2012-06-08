@@ -39,7 +39,6 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 			setListAdapter(new TwitterListAdapter(getSherlockActivity(), R.layout.tweet_item_layout, tweets));
 			
 			getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
-			getListView().setDivider(getResources().getDrawable(R.drawable.list_divider_holo_light));
 			
 			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
 			progressBar.setVisibility(tweets.size() > 0 ? View.VISIBLE : View.INVISIBLE);

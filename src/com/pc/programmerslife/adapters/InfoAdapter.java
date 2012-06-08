@@ -1,7 +1,5 @@
 package com.pc.programmerslife.adapters;
 
-import java.util.List;
-
 import com.pc.programmerslife.R;
 
 import android.content.Context;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 public class InfoAdapter extends ArrayAdapter<String> {
 	private LayoutInflater inflater;
 
-	public InfoAdapter(Context context, int textViewResourceId, List<String> objects) {
+	public InfoAdapter(Context context, int textViewResourceId, String[] objects) {
 		super(context, textViewResourceId, objects);
 		
 		inflater = LayoutInflater.from(context);

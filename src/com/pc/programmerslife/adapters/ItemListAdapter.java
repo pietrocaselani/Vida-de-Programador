@@ -20,8 +20,8 @@ public class ItemListAdapter extends ArrayAdapter<Commic> {
 		super(context, textViewResourceId, objects);
 		inflater = LayoutInflater.from(context);
 		
-		typefaceBold = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Black.ttf");
-		typefaceRegular = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+		typefaceBold = Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf");
+		typefaceRegular = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
 	}
 	
 	@Override

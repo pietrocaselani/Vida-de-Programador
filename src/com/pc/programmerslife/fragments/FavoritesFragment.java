@@ -44,7 +44,6 @@ public class FavoritesFragment extends SherlockListFragment {
 	
 	private void configureView() {
 		getView().setBackgroundColor(Color.WHITE);
-		getListView().setDivider(getResources().getDrawable(R.drawable.list_divider_holo_light));
 		getListView().setDividerHeight(1);
 		
 		setEmptyText(getString(R.string.emptyFavorites));

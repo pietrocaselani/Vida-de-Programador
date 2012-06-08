@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
-    android:background="@android:color/white"
     >
     <TextView
         android:id="@+id/infoItemLayout_textView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textAppearance="@android:style/TextAppearance.Large.Inverse"
+        android:textStyle="bold"
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
 	/>

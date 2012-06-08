@@ -25,8 +25,8 @@ public class TwitterListAdapter extends ArrayAdapter<Tweet> {
 		inflater = LayoutInflater.from(context);
 		aq = new AQuery(context);
 		
-		typefaceBold = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Bold.ttf");
-		typefaceRegular = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+		typefaceBold = Typeface.createFromAsset(context.getAssets(), "Roboto-Bold.ttf");
+		typefaceRegular = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
 	}
 	
 	@Override

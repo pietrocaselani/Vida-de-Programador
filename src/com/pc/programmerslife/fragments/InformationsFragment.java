@@ -1,9 +1,7 @@
 package com.pc.programmerslife.fragments;
 
-import java.util.ArrayList;
-
-import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -11,22 +9,15 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.pc.programmerslife.R;
 import com.pc.programmerslife.adapters.InfoAdapter;
+import com.pc.programmerslife.fragments.dialogs.AppDialogFragment;
 
 public class InformationsFragment extends SherlockListFragment {
-	private ArrayList<String> infos;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		infos = new ArrayList<String>(2);
-		infos.add(getString(R.string.site));
-		infos.add(getString(R.string.app));
-		
-//		getListView().setSelector(android.R.drawable.list_selector_background);
-		getListView().setDivider(getResources().getDrawable(R.drawable.list_divider_holo_light));
-		
-		setListAdapter(new InfoAdapter(getSherlockActivity(), R.layout.info_item_layout, infos));
+		setListAdapter(new InfoAdapter(getSherlockActivity(), R.layout.info_item_layout, getResources().getStringArray(R.array.infos)));
 	}
 	
 	@Override
@@ -36,5 +27,12 @@ public class InformationsFragment extends SherlockListFragment {
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		if (position == 1) {
+			showAppDialog();
+		}
+	}
+	
+	private void showAppDialog() {
+		new AppDialogFragment().show(getFragmentManager(), AppDialogFragment.APP_DIALOG_FRAGMENT_TAG);
 	}
 }

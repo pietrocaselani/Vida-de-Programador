@@ -23,5 +23,7 @@
     <string name="emptyText">Não há tirinhas\nTente novamente mais tarde</string>
     <string name="emptyFavorites">Nenhuma tirinha favoritada.</string>
     <string name="commiNumberText">Tirinha: %1$d</string>
+    
+    <string name="app_info">Aplicativo de leitura de tirinhas do site http://vidadeprogramador.com.br\n\nCódigo fonte: https://github.com/pietrocaselani/Vida-de-Programador\n\nMais informações: https://twitter.com/#!/pietrocaselani</string>
 
 </resources>
