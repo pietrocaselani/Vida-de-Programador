@@ -20,7 +20,7 @@ Desenvolvido por
 * Pietro Caselani (pc1992@gmail.com)
 
 [1]: http://vidadeprogramador.com.br
-[2]: https://github.com/pietrocaselani/Vida-de-Programador/blob/master/Screens.png
+[2]: http://img198.imageshack.us/img198/5050/vdp4agithub.png
 [3]: https://github.com/JakeWharton/ActionBarSherlock
 [4]: https://github.com/ChristopheVersieux/HoloEverywhere
 [5]: https://github.com/JakeWharton/Android-ViewPagerIndicator
