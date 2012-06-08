@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 
 import com.pc.framework.rss.Item;
+import com.pc.framework.rss.Manager;
 import com.pc.framework.rss.Manager.ManagerListener;
 
 public class CommicManager implements ManagerListener {
@@ -13,7 +14,7 @@ public class CommicManager implements ManagerListener {
 	
 	private static final CommicManager singleton = new CommicManager();
 	
-	private com.pc.framework.rss.Manager rssManager;
+	private Manager rssManager;
 	private CommicManagerListener listener;
 	private DatabaseHelper databaseHelper;
 	
@@ -22,7 +23,7 @@ public class CommicManager implements ManagerListener {
 	}
 	
 	public CommicManager() {
-		rssManager = new com.pc.framework.rss.Manager();
+		rssManager = new Manager();
 	}
 	
 	public void startDatabase(Context context) {
