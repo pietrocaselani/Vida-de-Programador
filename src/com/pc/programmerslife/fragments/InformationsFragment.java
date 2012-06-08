@@ -1,6 +1,8 @@
 package com.pc.programmerslife.fragments;
 
 import android.view.LayoutInflater;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +29,13 @@ public class InformationsFragment extends SherlockListFragment {
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		if (position == 1) {
+		if (position == 1)
 			showAppDialog();
+		else if (position == 0) {
+			Intent siteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://vidadeprogramador.com.br/sobre/"));
+			startActivity(siteIntent);
 		}
+			
 	}
 	
 	private void showAppDialog() {
