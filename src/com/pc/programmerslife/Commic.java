@@ -1,5 +1,7 @@
 package com.pc.programmerslife;
 
+import java.text.SimpleDateFormat;
+
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -58,6 +60,11 @@ public class Commic extends Item {
 	
 	public boolean isRead() {
 		return isRead;
+	}
+	
+	public String getFormattedDate() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return dateFormat.format(getDate());
 	}
 	
 	@Override

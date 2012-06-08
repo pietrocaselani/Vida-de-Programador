@@ -48,7 +48,7 @@ public class ItemListAdapter extends ArrayAdapter<Commic> {
 			holder.textViewNumber.setVisibility(View.INVISIBLE);
 		else {
 			holder.textViewNumber.setVisibility(View.VISIBLE);
-			holder.textViewNumber.setText(getContext().getString(R.string.commiNumberText, commicNumber));
+			holder.textViewNumber.setText(getContext().getString(R.string.commiNumberText, commicNumber, commic.getFormattedDate()));
 		}
 		
 		return convertView;
