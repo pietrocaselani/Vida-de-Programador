@@ -17,6 +17,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "VDPDatabase";
 	private static final int DATABASE_VERSION = 1;
+	private static final String DATABASE_TAG = "VDP-Database";
 	
 	private Context context;
 
@@ -85,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				return commics;
 			}
 		} catch (SQLException e) {
-			Log.e("VDP-MANAGER", e.getMessage());
+			Log.e(DATABASE_TAG, e.getMessage());
 		}
 		
 		db.close();
@@ -124,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				return commics;
 			}
 		} catch (SQLException e) {
-			Log.e("VDP-MANAGER", e.getMessage());
+			Log.e(DATABASE_TAG, e.getMessage());
 		}
 		
 		db.close();
@@ -222,7 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("COMMIT");
 		
 		if (e != null)
-			Log.e("VDP-MANAGER", e.getMessage());
+			Log.e(DATABASE_TAG, e.getMessage());
 		
 		db.close();
 	}
@@ -254,12 +255,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("COMMIT");
 		
 		if (e != null)
-			Log.e("VDP-MANAGER", e.getMessage());
+			Log.e(DATABASE_TAG, e.getMessage());
 		
 		db.close();
 	}
 	
 	public ArrayList<Tweet> getTweets() {
+		SQLiteDatabase db = getWritableDatabase();
+		
+		String select = "SELECT id, userName, userPhotoLink, text, source, date FROM tweets ORDER BY date LIMIT 20";
+		
+		try {
+			Cursor c = db.rawQuery(select, null);
+			if (c != null && c.moveToFirst() == true) {
+				ArrayList<Tweet> tweets = new ArrayList<Tweet>(c.getCount());
+				Tweet tweet;
+				long time;
+				do {
+					tweet = new Tweet();
+					tweet.setId(c.getInt(0));
+					tweet.setUserName(c.getString(1));
+					tweet.setUserPhotoLink(c.getString(2));
+					tweet.setText(c.getString(3));
+					tweet.setSource(c.getString(4));
+					time = c.getLong(5);
+					tweet.setDate(time > 0 ? new Date(time) : null);
+					
+					tweets.add(tweet);
+				} while (c.moveToNext() == true);
+				
+				c.close();
+				db.close();
+				
+				return tweets;
+			}
+		} catch (SQLException e) {
+			Log.e(DATABASE_TAG, e.getMessage());
+		}
+		
+		db.close();
+		
 		return null;
 	}
 }

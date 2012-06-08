@@ -36,6 +36,9 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		if (tweets != null) {
 			setListAdapter(new TwitterListAdapter(getSherlockActivity(), R.layout.tweet_item_layout, tweets));
 			
+			if (tweets.size() <= 0)
+				getTweetsFromDatabase();
+			
 			ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
 			progressBar.setVisibility(tweets.size() > 0 ? View.VISIBLE : View.INVISIBLE);
 		}
@@ -81,10 +84,12 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 
 	@Override
 	public void onFinishGetTweets(ArrayList<Tweet> tweets) {
-		this.tweets.clear();
-		this.tweets.addAll(tweets);
-		
-		((TwitterListAdapter) getListAdapter()).notifyDataSetChanged();
+		if (tweets != null) {
+			this.tweets.clear();
+			this.tweets.addAll(tweets);
+			
+			((TwitterListAdapter) getListAdapter()).notifyDataSetChanged();
+		}
 		
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
 		progressBar.setVisibility(View.INVISIBLE);
@@ -98,9 +103,19 @@ public class TwitterFragment extends SherlockListFragment implements TwitterList
 		Toast.makeText(getSherlockActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 	
+	private void getTweetsFromDatabase() {
+		ArrayList<Tweet> dbTweets = TwitterManager.getInstance().getTweets();
+		if (dbTweets != null) {
+			tweets.clear();
+			tweets.addAll(dbTweets);
+			
+			((TwitterListAdapter) getListAdapter()).notifyDataSetChanged();
+		}
+	}
+	
 	private void update() {
 		ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.twitterFragment_progressBar);
-		progressBar.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(tweets.size() > 0 ? View.INVISIBLE : View.VISIBLE);
 		
 		TwitterManager.getInstance().getTweets(this);
 	}
