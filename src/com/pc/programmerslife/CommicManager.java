@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import android.content.Context;
 
 import com.pc.framework.rss.Item;
-import com.pc.framework.rss.Manager;
-import com.pc.framework.rss.Manager.ManagerListener;
+import com.pc.framework.rss.dom.Manager;
+import com.pc.framework.rss.dom.Manager.ManagerListener;
 
 public class CommicManager implements ManagerListener {
 	private static final String SMALL_COMMIC_LINK = "-150x150.png";
@@ -23,7 +23,7 @@ public class CommicManager implements ManagerListener {
 	}
 	
 	public CommicManager() {
-		rssManager = new Manager();
+		rssManager = Manager.getInstance();
 	}
 	
 	public void startDatabase(Context context) {
@@ -92,7 +92,7 @@ public class CommicManager implements ManagerListener {
 	}
 
 	@Override
-	public void onManagerFinishUpdate(ArrayList<Item> items, com.pc.framework.rss.Manager manager) {
+	public void onManagerFinishUpdate(ArrayList<Item> items, Manager manager) {
 		ArrayList<Item> commics = new ArrayList<Item>(items.size());
 		
 		for (Item item : items)
@@ -106,7 +106,7 @@ public class CommicManager implements ManagerListener {
 	}
 
 	@Override
-	public void onManagerFailUpdate(Exception e, com.pc.framework.rss.Manager manager) {
+	public void onManagerFailUpdate(Exception e, Manager manager) {
 		if (listener != null)
 			listener.onFailUpdate(e, this);
 	}
