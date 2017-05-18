@@ -1,11 +1,6 @@
 Vida de Programador
 ===================
 
-###Atenção
-Este projeto não morreu, apenas não está recebendo sua merecida atenção.
-Tenho planos para melhorar diversas coisas e realizar uma interface para tablets,
-mas antes preciso me dedicar aos projetos da empresa e faculdade.
-
 Aplicativo do site [Vida de Programador][1] para Android
 
 * Lista de tirinhas atualizada de acordo com o RSS;
